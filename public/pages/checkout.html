@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ชำระเงิน - PINKORY</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/checkout.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="../img/logo.png">
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-left">
+                <a href="../pages/search.html" class="search-link">🔍 ค้นหาสินค้า</a>
+                <a href="../pages/index.html" class="nav-item home">Home</a>
+            </div>
+            <div class="nav-center">
+                <a href="../pages/index.html">
+                    <img src="../img/logo.png" alt="Doll Pre-Order Logo">
+                </a>
+            </div>
+            <div class="nav-right">
+                <a href="../pages/cart.html" class="nav-item cart-link">
+                    🛒 ตะกร้า
+                    <span id="cart-badge" class="cart-badge">0</span>
+                </a>
+                <a href="../pages/team.html" class="nav-item">About Us</a>
+                <a href="../pages/login.html" class="login-btn">เข้าสู่ระบบ</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="checkout-container">
+        <div class="checkout-header">
+            <h1>ชำระเงิน</h1>
+            <div class="step-indicator">
+                <div class="step active">1. ข้อมูลการจัดส่ง</div>
+                <div class="step">2. ชำระเงิน</div>
+                <div class="step">3. เสร็จสิ้น</div>
+            </div>
+        </div>
+
+        <div class="checkout-layout">
+            <div class="checkout-form">
+                <form id="checkout-form">
+                    <div class="form-sections-wrapper">
+                        <div class="form-section">
+                            <h3>ข้อมูลผู้สั่ง</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>ชื่อ *</label>
+                                    <input type="text" id="firstName" name="firstName" required>
+                                    <div class="error-message" id="firstName-error"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label>นามสกุล *</label>
+                                    <input type="text" id="lastName" name="lastName" required>
+                                    <div class="error-message" id="lastName-error"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>อีเมล *</label>
+                                <input type="email" id="email" name="email" required>
+                                <div class="error-message" id="email-error"></div>
+                            </div>
+                            <div class="form-group">
+                                <label>เบอร์โทรศัพท์ *</label>
+                                <input type="tel" id="phone" name="phone" required placeholder="0812345678">
+                                <div class="error-message" id="phone-error"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3>ที่อยู่จัดส่ง</h3>
+                            <div class="form-group">
+                                <label>ที่อยู่ *</label>
+                                <textarea id="address" name="address" rows="2" required></textarea>
+                                <div class="error-message" id="address-error"></div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>จังหวัด *</label>
+                                    <input type="text" id="province" name="province" required>
+                                    <div class="error-message" id="province-error"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label>รหัสไปรษณีย์ *</label>
+                                    <input type="text" id="postalCode" name="postalCode" required placeholder="10110">
+                                    <div class="error-message" id="postalCode-error"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>หมายเหตุ (ถ้ามี)</label>
+                                <textarea id="note" name="note" rows="1"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <a href="cart.html" class="btn btn-secondary">← กลับ</a>
+                        <button type="submit" class="btn btn-primary" id="submit-btn">ดำเนินการชำระเงิน</button>
+                    </div>
+                </form>
+
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <p>กำลังสร้างคำสั่งซื้อ...</p>
+                </div>
+            </div>
+
+            <div class="order-summary">
+                <h3>สรุปคำสั่งซื้อ</h3>
+                <div class="summary-items" id="summary-items"></div>
+                <div class="summary-total">
+                    <span>ยอดรวมทั้งหมด:</span>
+                    <span id="summary-total">฿0</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2024 PINKORY. All rights reserved.</p>
+        <p style="font-size: 0.9em;">
+            <span>มีปัญหา?</span>
+            <a href="test-cart.html" class="footer-link-debug">🔧 ตรวจสอบตะกร้า</a>
+        </p>
+    </footer>
+
+    <script src="../js/cart-utils.js"></script>
+    <script src="../js/checkout.js"></script>
+</body>
+</html>

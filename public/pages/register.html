@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สมัครสมาชิก - Doll Pre-Order</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/register.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/footer.css">
+    <link rel="icon" type="image/x-icon" href="../img/logo.png">
+</head>
+
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-left">
+                <a href="../pages/search.html" class="search-link">🔍 ค้นหาสินค้า</a>
+                <a href="../pages/index.html" class="nav-item home">Home</a>
+            </div>
+            <div class="nav-center">
+                <a href="../pages/index.html">
+                    <img src="../img/logo.png" alt="Doll Pre-Order Logo">
+                </a>
+            </div>
+            <div class="nav-right">
+                <a href="../pages/cart.html" class="nav-item cart-link">
+                    🛒 ตะกร้า
+                    <span id="cart-badge" class="cart-badge">0</span>
+                </a>
+                <a href="../pages/team.html" class="nav-item">About Us</a>
+                <a href="../pages/login.html" class="login-btn">เข้าสู่ระบบ</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="register-container">
+            <h2>สมัครสมาชิก</h2>
+            <form id="register-form">
+                <div class="form-group">
+                    <label for="username">ชื่อผู้ใช้</label>
+                    <input type="text" id="username" name="username" placeholder="กรอกชื่อผู้ใช้" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">อีเมล</label>
+                    <input type="email" id="email" name="email" placeholder="กรอกอีเมล" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">รหัสผ่าน</label>
+                    <input type="password" id="password" name="password" placeholder="กรอกรหัสผ่าน" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirm-password">ยืนยันรหัสผ่าน</label>
+                    <input type="password" id="confirm-password" name="confirm-password"
+                        placeholder="กรอกรหัสผ่านอีกครั้ง" required>
+                </div>
+                <button type="submit" class="register-btn-submit">สมัครสมาชิก</button>
+            </form>
+            <a href="login.html" class="back-link">มีบัญชีอยู่แล้ว? เข้าสู่ระบบ</a>
+        </div>
+    </main>
+
+    <footer
+        style="background: var(--primary-pink); padding: 30px 20px; text-align: center; color: var(--text-color); margin-top: 60px;">
+        <p>&copy; 2024 Doll Pre-Order. All rights reserved.</p>
+        <p>Made with ❤️ by Our Team</p>
+    </footer>
+
+    <script>
+        document.getElementById('register-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+
+            if (password !== confirmPassword) {
+                alert('รหัสผ่านไม่ตรงกัน');
+                return;
+            }
+
+            try {
+                // Assuming the backend has a register endpoint
+                const response = await fetch('http://localhost:3000/api/auth/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, email, password })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    alert('สมัครสมาชิกสำเร็จ! กรุณาเข้าสู่ระบบ');
+                    window.location.href = 'login.html';
+                } else {
+                    alert(data.message || 'การสมัครสมาชิกไม่สำเร็จ');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('เกิดข้อผิดพลาด กรุณาลองใหม่ หรือระบบยังไม่เปิดรับสมัคร');
+            }
+        });
+    </script>
+</body>
+
+</html>

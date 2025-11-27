@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ชำระเงิน - PINKORY</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/checkout.css">
+    <link rel="stylesheet" href="../css/payment.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="../img/logo.png">
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-left">
+                <a href="index.html" class="nav-item home">Home</a>
+                <a href="search.html" class="nav-item">🔍 ค้นหาสินค้า</a>
+            </div>
+            <div class="nav-center">
+                <a href="index.html">
+                    <img src="../img/logo.png" alt="PINKORY Logo">
+                </a>
+            </div>
+            <div class="nav-right">
+                <a href="cart.html" class="nav-item cart-link">
+                    🛒 ตะกร้า
+                    <span id="cart-badge" class="cart-badge">0</span>
+                </a>
+                <a href="team.html" class="nav-item">About Us</a>
+                <a href="login.html" class="login-btn">เข้าสู่ระบบ</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="payment-container">
+        <div class="checkout-header">
+            <h1>💳 ชำระเงิน</h1>
+            <div class="step-indicator">
+                <div class="step completed">1. ข้อมูลการจัดส่ง</div>
+                <div class="step active">2. ชำระเงิน</div>
+                <div class="step">3. เสร็จสิ้น</div>
+            </div>
+        </div>
+
+        <div class="payment-box">
+            <h2>💳 ชำระเงินผ่าน PromptPay</h2>
+            
+            <!-- Left Side: QR Code -->
+            <div class="payment-left">
+                <div class="qr-code-container">
+                    <h3>📱 สแกน QR Code</h3>
+                    <img id="qr-code" class="qr-code" src="" alt="QR Code">
+                </div>
+                
+                <div class="order-info">
+                    <div class="order-info-row">
+                        <span>📦 คำสั่งซื้อ:</span>
+                        <span id="order-number" style="font-weight: 600;">-</span>
+                    </div>
+                    <div class="order-info-row total">
+                        <span>💰 ยอดชำระ:</span>
+                        <span id="order-amount">฿0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side: Instructions -->
+            <div class="payment-right">
+                <div class="instructions">
+                    <h4>📱 วิธีชำระเงิน</h4>
+                    <ol>
+                        <li>เปิดแอปธนาคารของคุณ</li>
+                        <li>เลือกเมนู "สแกน QR"</li>
+                        <li>สแกน QR Code ด้านซ้าย</li>
+                        <li>ตรวจสอบยอดเงินและกดยืนยัน</li>
+                        <li>รอการยืนยันจากระบบ</li>
+                    </ol>
+                </div>
+                
+                <div class="timer-warning">
+                    <span>⏱️ กรุณาชำระภายใน</span>
+                    <span class="timer" id="timer">15:00</span>
+                </div>
+
+                <button onclick="confirmPayment()" class="confirm-btn">
+                    ✓ ฉันชำระเงินแล้ว
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2024 PINKORY. All rights reserved.</p>
+    </footer>
+
+    <script src="../js/cart-utils.js"></script>
+    <script>
+        // Get order from sessionStorage
+        const orderData = JSON.parse(sessionStorage.getItem('currentOrder') || '{}');
+        
+        if (!orderData.orderNumber) {
+            alert('ไม่พบข้อมูลคำสั่งซื้อ');
+            window.location.href = 'cart.html';
+        }
+        
+        // Display order info
+        document.getElementById('order-number').textContent = orderData.orderNumber;
+        document.getElementById('order-amount').textContent = `฿${orderData.totalAmount?.toLocaleString() || '0'}`;
+        
+        // Display QR Code
+        if (orderData.qrCode) {
+            document.getElementById('qr-code').src = orderData.qrCode;
+        } else {
+            document.querySelector('.qr-code-container').innerHTML = '<p style="color: #F44336;">ไม่สามารถสร้าง QR Code ได้</p>';
+        }
+        
+        // Countdown timer
+        let timeLeft = 15 * 60; // 15 minutes in seconds
+        const timerElement = document.getElementById('timer');
+        
+        const countdown = setInterval(() => {
+            timeLeft--;
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerElement.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            
+            if (timeLeft <= 0) {
+                clearInterval(countdown);
+                alert('หมดเวลาชำระเงิน กรุณาสั่งซื้อใหม่อีกครั้ง');
+                window.location.href = 'cart.html';
+            }
+            
+            // Change color when time is running out
+            if (timeLeft <= 60) {
+                timerElement.style.color = '#F44336';
+                timerElement.style.animation = 'pulse 1s infinite';
+            }
+        }, 1000);
+        
+        function confirmPayment() {
+            if (confirm('ยืนยันว่าคุณได้ชำระเงินแล้วใช่หรือไม่?')) {
+                clearInterval(countdown);
+                // Save order info for tracking
+                sessionStorage.setItem('completedOrder', JSON.stringify(orderData));
+                window.location.href = 'order-success.html';
+            }
+        }
+    </script>
+</body>
+</html>

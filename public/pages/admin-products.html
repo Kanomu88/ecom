@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>จัดการสินค้า - Admin</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/admin-products.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <link rel="icon" type="image/x-icon" href="../img/logo.png">
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-left">
+                <a href="../pages/search.html" class="search-link">🔍 ค้นหาสินค้า</a>
+                <a href="index.html" class="nav-item home">Home</a>
+            </div>
+            <div class="nav-center">
+                <a href="index.html" class="logo">Admin</a>
+            </div>
+            <div class="nav-right">
+                <a onclick="logout()"  href="index.html" class="login-btn">ออกจากระบบ</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="admin-container">
+        <div class="admin-header">
+            <h1>จัดการสินค้า</h1>
+        </div>
+
+        <div class="admin-nav">
+            <a href="admin-products.html" class="active">จัดการสินค้า</a>
+            <a href="admin-users.html">จัดการผู้ดูแลระบบ</a>
+            <a href="admin-orders.html">จัดการคำสั่งซื้อ</a>
+        </div>
+
+
+        <div class="form-section">
+            <h2 id="form-title">เพิ่มสินค้าใหม่</h2>
+            <form id="product-form">
+                <input type="hidden" id="product-id">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="name">ชื่อสินค้า *</label>
+                        <input type="text" id="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="brand">แบรนด์ *</label>
+                        <select id="brand" required>
+                            <option value="">เลือกแบรนด์</option>
+                            <option value="Jellycat">Jellycat</option>
+                            <option value="Care Bear">Care Bear</option>
+                            <option value="Steiff">Steiff</option>
+                            <option value="Gund">Gund</option>
+                            <option value="Squishmallows">Squishmallows</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="category">หมวดหมู่</label>
+                        <input type="text" id="category" placeholder="เช่น กระต่าย, หมี">
+                    </div>
+                    <div class="form-group">
+                        <label for="price">ราคา (บาท) *</label>
+                        <input type="number" id="price" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="rating">เรตติ้ง (0-5)</label>
+                        <input type="number" id="rating" min="0" max="5" step="0.1" value="5">
+                    </div>
+                    <div class="form-group">
+                        <label for="ratingCount">จำนวนรีวิว</label>
+                        <input type="number" id="ratingCount" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="imageUrl">URL รูปภาพ</label>
+                        <input type="text" id="imageUrl">
+                    </div>
+                    <div class="form-group">
+                        <label for="inStock">สถานะสินค้า</label>
+                        <select id="inStock">
+                            <option value="true">มีสินค้า</option>
+                            <option value="false">สินค้าหมด</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="description">คำอธิบาย</label>
+                    <textarea id="description"></textarea>
+                </div>
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary">บันทึก</button>
+                    <button type="button" id="cancel-btn" class="btn btn-secondary">ยกเลิก</button>
+                </div>
+            </form>
+        </div>
+
+
+<div class="search-section">
+    <h2>ค้นหาสินค้า</h2>
+    <div class="search-form">
+        <div class="search-group">
+            <label for="search-name">ชื่อสินค้า</label>
+            <input type="text" id="search-name" placeholder="พิมพ์ชื่อสินค้าที่ต้องการค้นหา...">
+        </div>
+        <div class="search-buttons">
+            <button class="btn btn-primary" onclick="searchProducts()">🔍 ค้นหา</button>
+            <button class="btn btn-secondary" onclick="resetSearch()">รีเซ็ต</button>
+        </div>
+    </div>
+</div>
+
+
+        <div class="table-section">
+            <h2>รายการสินค้า</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ชื่อ</th>
+                        <th>แบรนด์</th>
+                        <th>ราคา</th>
+                        <th>เรตติ้ง</th>
+                        <th>สถานะ</th>
+                        <th>จัดการ</th>
+                    </tr>
+                </thead>
+                <tbody id="products-table"></tbody>
+            </table>
+        </div>
+    </main>
+
+
+    <div id="edit-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>แก้ไขสินค้า</h2>
+                <button class="modal-close" onclick="closeEditModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="edit-form">
+                    <input type="hidden" id="edit-product-id">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="edit-name">ชื่อสินค้า *</label>
+                            <input type="text" id="edit-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-brand">แบรนด์ *</label>
+                            <select id="edit-brand" required>
+                                <option value="">เลือกแบรนด์</option>
+                                <option value="Jellycat">Jellycat</option>
+                                <option value="Care Bear">Care Bear</option>
+                                <option value="Steiff">Steiff</option>
+                                <option value="Gund">Gund</option>
+                                <option value="Squishmallows">Squishmallows</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-category">หมวดหมู่</label>
+                            <input type="text" id="edit-category">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-price">ราคา (บาท) *</label>
+                            <input type="number" id="edit-price" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-rating">เรตติ้ง (0-5)</label>
+                            <input type="number" id="edit-rating" min="0" max="5" step="0.1">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-ratingCount">จำนวนรีวิว</label>
+                            <input type="number" id="edit-ratingCount">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-imageUrl">URL รูปภาพ</label>
+                            <input type="text" id="edit-imageUrl">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-inStock">สถานะสินค้า</label>
+                            <select id="edit-inStock">
+                                <option value="true">มีสินค้า</option>
+                                <option value="false">สินค้าหมด</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-description">คำอธิบาย</label>
+                        <textarea id="edit-description"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeEditModal()">ยกเลิก</button>
+                <button type="button" class="btn btn-primary" onclick="saveEdit()">บันทึก</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="confirm-dialog" class="modal-overlay" style="display: none;">
+        <div class="confirm-dialog">
+            <div class="confirm-dialog-icon">⚠️</div>
+            <div class="confirm-dialog-title">ยืนยันการลบ</div>
+            <div class="confirm-dialog-message" id="confirm-message">คุณแน่ใจหรือไม่ที่จะลบรายการนี้?</div>
+            <div class="confirm-dialog-buttons">
+                <button class="btn btn-secondary" onclick="closeConfirmDialog()">ยกเลิก</button>
+                <button class="btn btn-danger" onclick="confirmDelete()">ลบ</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Doll Pre-Order. All rights reserved.</p>
+        <p>Made with ❤️ by Our Team</p>
+    </footer>
+
+</body>
+
+</html>
+<script>
+const token = localStorage.getItem('token');
+if (!token) {
+  alert('กรุณา Login ก่อน');
+  window.location.href = 'login.html';
+}
+
+async function loadProducts() {
+  try {
+    const response = await fetch('http://localhost:3000/api/products', {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    
+    const data = await response.json();
+    
+    if (data.success) {
+      displayProducts(data.data);
+    } else {
+      alert('ไม่สามารถดึงข้อมูลสินค้าได้');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    alert('เกิดข้อผิดพลาด');
+  }
+}
+
+async function searchProducts() {
+  const name = document.getElementById('search-name')?.value || '';
+  const brand = document.getElementById('search-brand')?.value || '';
+  const minPrice = document.getElementById('search-minPrice')?.value || '';
+  const maxPrice = document.getElementById('search-maxPrice')?.value || '';
+  
+  const params = new URLSearchParams();
+  if (name) params.append('name', name);
+  if (brand) params.append('brand', brand);
+  if (minPrice) params.append('minPrice', minPrice);
+  if (maxPrice) params.append('maxPrice', maxPrice);
+  
+  try {
+    const response = await fetch(`http://localhost:3000/api/products?${params}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    
+    const data = await response.json();
+    
+    if (data.success) {
+      displayProducts(data.data);
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    alert('เกิดข้อผิดพลาดในการค้นหา');
+  }
+}
+
+function displayProducts(products) {
+  const tbody = document.getElementById('products-table');
+  
+  if (products.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="6">ไม่พบสินค้า</td></tr>';
+    return;
+  }
+  
+  tbody.innerHTML = products.map(p => `
+    <tr>
+      <td>${p.name}</td>
+      <td>${p.brand}</td>
+      <td>฿${p.price}</td>
+      <td>⭐ ${p.rating}</td>
+      <td>${p.inStock ? '<span style="color: green;">มีสินค้า</span>' : '<span style="color: red;">หมด</span>'}</td>
+      <td>
+        <button class="btn btn-primary" onclick="viewProduct('${p._id}')">ดู</button>
+        <button class="btn btn-secondary" onclick="editProduct('${p._id}')">แก้ไข</button>
+        <button class="btn btn-danger" onclick="deleteProduct('${p._id}')">ลบ</button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+async function viewProduct(id) {
+  try {
+    const response = await fetch(`http://localhost:3000/api/products/${id}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    
+    const data = await response.json();
+    
+    if (data.success) {
+      const p = data.data;
+      alert(`ชื่อ: ${p.name}\nแบรนด์: ${p.brand}\nราคา: ฿${p.price}\nคำอธิบาย: ${p.description}`);
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
+
+function logout() {
+  localStorage.removeItem('token');
+  localStorage.removeItem('user');
+  window.location.href = 'login.html';
+}
+document.getElementById('product-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  
+  const productData = {
+    name: document.getElementById('name').value,
+    brand: document.getElementById('brand').value,
+    category: document.getElementById('category').value,
+    price: Number(document.getElementById('price').value),
+    rating: Number(document.getElementById('rating').value),
+    ratingCount: Number(document.getElementById('ratingCount').value),
+    imageUrl: document.getElementById('imageUrl').value,
+    description: document.getElementById('description').value,
+    inStock: document.getElementById('inStock').value === 'true'
+  };
+  
+  try {
+    const response = await fetch('http://localhost:3000/api/products', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(productData)
+    });
+    
+    const data = await response.json();
+    
+    if (data.success) {
+      alert('เพิ่มสินค้าสำเร็จ!');
+      document.getElementById('product-form').reset();
+      loadProducts();
+    } else {
+      alert(data.message || 'เพิ่มสินค้าไม่สำเร็จ');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    alert('เกิดข้อผิดพลาด');
+  }
+});
+async function editProduct(id) {
+  try {
+    const response = await fetch(`http://localhost:3000/api/products/${id}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    
+    const data = await response.json();
+    
+    if (data.success) {
+      const p = data.data;
+      
+      document.getElementById('edit-product-id').value = p._id;
+      document.getElementById('edit-name').value = p.name;
+      document.getElementById('edit-brand').value = p.brand;
+      document.getElementById('edit-category').value = p.category || '';
+      document.getElementById('edit-price').value = p.price;
+      document.getElementById('edit-rating').value = p.rating;
+      document.getElementById('edit-ratingCount').value = p.ratingCount;
+      document.getElementById('edit-imageUrl').value = p.imageUrl || '';
+      document.getElementById('edit-description').value = p.description || '';
+      document.getElementById('edit-inStock').value = p.inStock.toString();
+      
+      document.getElementById('edit-modal').style.display = 'flex';
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    alert('เกิดข้อผิดพลาด');
+  }
+}
+
+function closeEditModal() {
+  document.getElementById('edit-modal').style.display = 'none';
+}
+
+async function saveEdit() {
+  const id = document.getElementById('edit-product-id').value;
+  
+  const productData = {
+    name: document.getElementById('edit-name').value,
+    brand: document.getElementById('edit-brand').value,
+    category: document.getElementById('edit-category').value,
+    price: Number(document.getElementById('edit-price').value),
+    rating: Number(document.getElementById('edit-rating').value),
+    ratingCount: Number(document.getElementById('edit-ratingCount').value),
+    imageUrl: document.getElementById('edit-imageUrl').value,
+    description: document.getElementById('edit-description').value,
+    inStock: document.getElementById('edit-inStock').value === 'true'
+  };
+  
+  try {
+    const response = await fetch(`http://localhost:3000/api/products/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(productData)
+    });
+    
+    const data = await response.json();
+    
+    if (data.success) {
+      alert('แก้ไขสินค้าสำเร็จ!');
+      closeEditModal();
+      loadProducts();
+    } else {
+      alert(data.message || 'แก้ไขสินค้าไม่สำเร็จ');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    alert('เกิดข้อผิดพลาด');
+  }
+}
+let deleteProductId = null;
+
+function deleteProduct(id) {
+  deleteProductId = id;
+  document.getElementById('confirm-message').textContent = 'คุณแน่ใจหรือไม่ที่จะลบสินค้านี้?';
+  document.getElementById('confirm-dialog').style.display = 'flex';
+}
+
+function closeConfirmDialog() {
+  deleteProductId = null;
+  document.getElementById('confirm-dialog').style.display = 'none';
+}
+
+async function confirmDelete() {
+  if (!deleteProductId) return;
+  
+  try {
+    const response = await fetch(`http://localhost:3000/api/products/${deleteProductId}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    
+    const data = await response.json();
+    
+    if (data.success) {
+      alert('ลบสินค้าสำเร็จ!');
+      closeConfirmDialog();
+      loadProducts();
+    } else {
+      alert(data.message || 'ลบสินค้าไม่สำเร็จ');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    alert('เกิดข้อผิดพลาด');
+  }
+}
+
+function resetSearch() {
+  document.getElementById('search-name').value = '';
+  loadProducts();
+}
+
+
+loadProducts();
+</script>
+
+</body>
+
+</html>

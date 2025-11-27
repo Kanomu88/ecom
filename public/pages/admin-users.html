@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>จัดการผู้ดูแลระบบ - Admin</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/admin-users.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <link rel="icon" type="image/x-icon" href="../img/logo.png">
+</head>
+
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-left">
+                <a href="../pages/search.html" class="search-link">🔍 ค้นหาสินค้า</a>
+                <a href="index.html" class="nav-item home">Home</a>
+            </div>
+            <div class="nav-center">
+                <a href="index.html" class="logo">Admin</a>
+            </div>
+            <div class="nav-right">
+                <a  onclick="logout()" href="index.html" class="login-btn">ออกจากระบบ</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="admin-container">
+        <div class="admin-header">
+            <h1>จัดการผู้ดูแลระบบ</h1>
+        </div>
+
+        <div class="admin-nav">
+            <a href="admin-products.html">จัดการสินค้า</a>
+            <a href="admin-users.html" class="active">จัดการผู้ดูแลระบบ</a>
+            <a href="admin-orders.html">จัดการคำสั่งซื้อ</a>
+        </div>
+
+
+        <div class="form-section">
+            <h2 id="form-title">เพิ่มผู้ดูแลระบบใหม่</h2>
+            <form id="user-form">
+                <input type="hidden" id="user-id">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="username">ชื่อผู้ใช้ *</label>
+                        <input type="text" id="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">รหัสผ่าน *</label>
+                        <input type="password" id="password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="firstName">ชื่อ *</label>
+                        <input type="text" id="firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">นามสกุล *</label>
+                        <input type="text" id="lastName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">อีเมล *</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="age">อายุ</label>
+                        <input type="number" id="age">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="address">ที่อยู่</label>
+                    <textarea id="address"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="preferences">ความต้องการ/หมายเหตุ</label>
+                    <textarea id="preferences"></textarea>
+                </div>
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary">บันทึก</button>
+                    <button type="button" id="cancel-btn" class="btn btn-secondary">ยกเลิก</button>
+                </div>
+            </form>
+        </div>
+ <!-- Search Section -->
+<div class="search-section">
+    <h2>ค้นหาผู้ดูแลระบบ</h2>
+    <div class="search-form">
+        <div class="search-group">
+            <label for="search-firstName">ชื่อ</label>
+            <input type="text" id="search-firstName" placeholder="พิมพ์ชื่อที่ต้องการค้นหา...">
+        </div>
+        <div class="search-buttons">
+            <button class="btn btn-primary" onclick="searchAdmins()">🔍 ค้นหา</button>
+            <button class="btn btn-secondary" onclick="resetSearch()">รีเซ็ต</button>
+        </div>
+    </div>
+</div>
+
+        <div class="table-section">
+            <h2>รายการผู้ดูแลระบบ</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ชื่อผู้ใช้</th>
+                        <th>ชื่อ-นามสกุล</th>
+                        <th>อีเมล</th>
+                        <th>อายุ</th>
+                        <th>จัดการ</th>
+                    </tr>
+                </thead>
+                <tbody id="users-table"></tbody>
+            </table>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Doll Pre-Order. All rights reserved.</p>
+        <p>Made with ❤️ by Our Team</p>
+    </footer>
+
+    <!-- Edit Modal -->
+    <div id="edit-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>แก้ไขผู้ดูแลระบบ</h2>
+                <button class="modal-close" onclick="closeEditModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="edit-form">
+                    <input type="hidden" id="edit-user-id">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="edit-username">ชื่อผู้ใช้ *</label>
+                            <input type="text" id="edit-username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-password">รหัสผ่าน (เว้นว่างถ้าไม่เปลี่ยน)</label>
+                            <input type="password" id="edit-password">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-firstName">ชื่อ *</label>
+                            <input type="text" id="edit-firstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-lastName">นามสกุล *</label>
+                            <input type="text" id="edit-lastName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-email">อีเมล *</label>
+                            <input type="email" id="edit-email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-age">อายุ</label>
+                            <input type="number" id="edit-age">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-address">ที่อยู่</label>
+                        <textarea id="edit-address"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-preferences">ความต้องการ/หมายเหตุ</label>
+                        <textarea id="edit-preferences"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeEditModal()">ยกเลิก</button>
+                <button type="button" class="btn btn-primary" onclick="saveEdit()">บันทึก</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Dialog -->
+    <div id="confirm-dialog" class="modal-overlay" style="display: none;">
+        <div class="confirm-dialog">
+            <div class="confirm-dialog-icon">⚠️</div>
+            <div class="confirm-dialog-title">ยืนยันการลบ</div>
+            <div class="confirm-dialog-message">คุณแน่ใจหรือไม่ที่จะลบผู้ดูแลระบบนี้? การกระทำนี้ไม่สามารถย้อนกลับได้
+            </div>
+            <div class="confirm-dialog-buttons">
+                <button class="btn btn-secondary" onclick="closeConfirmDialog()">ยกเลิก</button>
+                <button class="btn btn-danger" onclick="confirmDelete()">ลบ</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
+<script>
+// ตรวจสอบ login
+const token = localStorage.getItem('token');
+if (!token) {
+  alert('กรุณา Login ก่อน');
+  window.location.href = 'login.html';
+}
+
+// ฟังก์ชันดึงผู้ดูแลทั้งหมด
+async function loadAdmins() {
+  try {
+    const response = await fetch('http://localhost:3000/api/admins', {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    
+    const data = await response.json();
+    
+    if (data.success) {
+      displayAdmins(data.data);
+    } else {
+      alert('ไม่สามารถดึงข้อมูลผู้ดูแลได้');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    alert('เกิดข้อผิดพลาด');
+  }
+}
+
+// ฟังก์ชันค้นหาผู้ดูแล
+async function searchAdmins() {
+  const username = document.getElementById('search-username')?.value || '';
+  const email = document.getElementById('search-email')?.value || '';
+  const firstName = document.getElementById('search-firstName')?.value || '';
+  
+  const params = new URLSearchParams();
+  if (username) params.append('username', username);
+  if (email) params.append('email', email);
+  if (firstName) params.append('firstName', firstName);
+  
+  try {
+    const response = await fetch(`http://localhost:3000/api/admins?${params}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    
+    const data = await response.json();
+    
+    if (data.success) {
+      displayAdmins(data.data);
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    alert('เกิดข้อผิดพลาดในการค้นหา');
+  }
+}
+
+// แสดงผู้ดูแลในตาราง
+function displayAdmins(admins) {
+  const tbody = document.getElementById('users-table');
+  
+  if (admins.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="5">ไม่พบผู้ดูแลระบบ</td></tr>';
+    return;
+  }
+  
+  tbody.innerHTML = admins.map(a => `
+    <tr>
+      <td>${a.username}</td>
+      <td>${a.firstName} ${a.lastName}</td>
+      <td>${a.email}</td>
+      <td>${a.role}</td>
+      <td>
+        <button class="btn btn-primary" onclick="viewAdmin('${a._id}')">ดู</button>
+        <button class="btn btn-secondary" onclick="editAdmin('${a._id}')">แก้ไข</button>
+        <button class="btn btn-danger" onclick="deleteAdmin('${a._id}')">ลบ</button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+// ฟังก์ชันดูรายละเอียดผู้ดูแล
+async function viewAdmin(id) {
+  try {
+    const response = await fetch(`http://localhost:3000/api/admins/${id}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    
+    const data = await response.json();
+    
+    if (data.success) {
+      const a = data.data;
+      alert(`Username: ${a.username}\nชื่อ: ${a.firstName} ${a.lastName}\nEmail: ${a.email}\nRole: ${a.role}`);
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
+
+// ฟังก์ชัน Logout
+function logout() {
+  localStorage.removeItem('token');
+  localStorage.removeItem('user');
+  window.location.href = 'login.html';
+}
+// Event listener สำหรับ form เพิ่มผู้ดูแล
+document.getElementById('user-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  
+  const adminData = {
+    username: document.getElementById('username').value,
+    password: document.getElementById('password').value,
+    firstName: document.getElementById('firstName').value,
+    lastName: document.getElementById('lastName').value,
+    email: document.getElementById('email').value,
+    role: 'admin'
+  };
+  
+  try {
+    const response = await fetch('http://localhost:3000/api/admins', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(adminData)
+    });
+    
+    const data = await response.json();
+    
+    if (data.success) {
+      alert('เพิ่มผู้ดูแลสำเร็จ!');
+      document.getElementById('user-form').reset();
+      loadAdmins();
+    } else {
+      alert(data.message || 'เพิ่มผู้ดูแลไม่สำเร็จ');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    alert('เกิดข้อผิดพลาด');
+  }
+});
+// ฟังก์ชันเปิด Modal แก้ไขผู้ดูแล
+async function editAdmin(id) {
+  try {
+    const response = await fetch(`http://localhost:3000/api/admins/${id}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    
+    const data = await response.json();
+    
+    if (data.success) {
+      const a = data.data;
+      
+      // ใส่ข้อมูลลงในฟอร์ม
+      document.getElementById('edit-user-id').value = a._id;
+      document.getElementById('edit-username').value = a.username;
+      document.getElementById('edit-firstName').value = a.firstName;
+      document.getElementById('edit-lastName').value = a.lastName;
+      document.getElementById('edit-email').value = a.email;
+      document.getElementById('edit-password').value = ''; // เว้นว่าง
+      
+      // เปิด Modal
+      document.getElementById('edit-modal').style.display = 'flex';
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    alert('เกิดข้อผิดพลาด');
+  }
+}
+
+// ฟังก์ชันปิด Modal
+function closeEditModal() {
+  document.getElementById('edit-modal').style.display = 'none';
+}
+
+// ฟังก์ชันบันทึกการแก้ไข
+async function saveEdit() {
+  const id = document.getElementById('edit-user-id').value;
+  
+  const adminData = {
+    username: document.getElementById('edit-username').value,
+    firstName: document.getElementById('edit-firstName').value,
+    lastName: document.getElementById('edit-lastName').value,
+    email: document.getElementById('edit-email').value
+  };
+  
+  // ถ้ามี password ใหม่ ให้ส่งไปด้วย
+  const newPassword = document.getElementById('edit-password').value;
+  if (newPassword) {
+    adminData.password = newPassword;
+  }
+  
+  try {
+    const response = await fetch(`http://localhost:3000/api/admins/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(adminData)
+    });
+    
+    const data = await response.json();
+    
+    if (data.success) {
+      alert('แก้ไขผู้ดูแลสำเร็จ!');
+      closeEditModal();
+      loadAdmins();
+    } else {
+      alert(data.message || 'แก้ไขผู้ดูแลไม่สำเร็จ');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    alert('เกิดข้อผิดพลาด');
+  }
+}
+// ตัวแปรเก็บ ID ที่จะลบ
+let deleteAdminId = null;
+
+// ฟังก์ชันเปิด Confirmation Dialog
+function deleteAdmin(id) {
+  deleteAdminId = id;
+  document.getElementById('confirm-dialog').style.display = 'flex';
+}
+
+// ฟังก์ชันปิด Confirmation Dialog
+function closeConfirmDialog() {
+  deleteAdminId = null;
+  document.getElementById('confirm-dialog').style.display = 'none';
+}
+
+// ฟังก์ชันยืนยันการลบ
+async function confirmDelete() {
+  if (!deleteAdminId) return;
+  
+  try {
+    const response = await fetch(`http://localhost:3000/api/admins/${deleteAdminId}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    
+    const data = await response.json();
+    
+    if (data.success) {
+      alert('ลบผู้ดูแลระบบสำเร็จ!');
+      closeConfirmDialog();
+      loadAdmins();
+    } else {
+      alert(data.message || 'ลบผู้ดูแลไม่สำเร็จ');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    alert('เกิดข้อผิดพลาด');
+  }
+}
+
+// ฟังก์ชันรีเซ็ตการค้นหา
+function resetSearch() {
+  document.getElementById('search-firstName').value = '';
+  loadAdmins();
+}
+
+// เรียกใช้ตอน load หน้า
+loadAdmins();
+</script>
+
+</body>
+
+</html>

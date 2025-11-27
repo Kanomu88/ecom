@@ -1,0 +1,26 @@
+/* Soft Pastel Footer Styles */
+
+footer {
+    background: linear-gradient(135deg, var(--pastel-pink) 0%, var(--rose-pink) 100%);
+    padding: 48px 24px;
+    text-align: center;
+    color: var(--text-primary);
+    margin-top: 80px;
+    border-top: 4px solid var(--primary-pink);
+}
+
+footer p {
+    margin: 0;
+    font-size: 15px;
+    color: var(--text-primary);
+}
+
+footer p:first-child {
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+footer p:last-child {
+    font-size: 14px;
+    color: var(--text-secondary);
+}

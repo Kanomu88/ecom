@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>รายละเอียดสินค้า - Doll Pre-Order</title>
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/product-detail.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/footer.css">
+  <link rel="icon" type="image/x-icon" href="../img/logo.png">
+</head>
+
+<body>
+  <header class="header">
+    <nav class="navbar">
+      <div class="nav-left">
+        <a href="../pages/search.html" class="search-link">🔍 ค้นหาสินค้า</a>
+        <a href="../pages/index.html" class="nav-item home">Home</a>
+      </div>
+      <div class="nav-center">
+        <a href="../pages/index.html">
+          <img src="../img/logo.png" alt="Doll Pre-Order Logo">
+        </a>
+      </div>
+      <div class="nav-right">
+        <a href="../pages/cart.html" class="nav-item cart-link">
+          🛒 ตะกร้า
+          <span id="cart-badge" class="cart-badge">0</span>
+        </a>
+        <a href="../pages/team.html" class="nav-item">About Us</a>
+        <a href="../pages/login.html" class="login-btn">เข้าสู่ระบบ</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="product-detail-container">
+    <article id="product-detail" class="product-detail">
+      <!-- Left: Image -->
+      <figure class="product-image">
+        <img id="product-img" src="" alt="Product Image">
+        <figcaption id="image-source" class="image-source"></figcaption>
+      </figure>
+
+      <!-- Right: Info -->
+      <div class="product-info">
+        <!-- Header Group -->
+        <div class="info-header">
+          <p id="product-brand" class="product-brand"></p>
+          <h1 id="product-name"></h1>
+          <div class="meta-row">
+            <div id="product-rating" class="product-rating"></div>
+            <span class="divider">|</span>
+            <div id="product-stock" class="product-stock"></div>
+          </div>
+        </div>
+
+        <!-- Price Group -->
+        <div class="price-group">
+          <p id="product-price" class="product-price"></p>
+          <span id="product-category" class="product-category"></span>
+        </div>
+
+        <div class="divider-line"></div>
+
+        <!-- Description -->
+        <div class="description-group">
+          <h3>รายละเอียดสินค้า</h3>
+          <p id="product-description" class="product-description"></p>
+        </div>
+
+        <!-- Purchase Section -->
+        <div class="purchase-section">
+          <!-- Options Row -->
+          <div class="options-row">
+            <div class="currency-wrapper">
+              <label for="currency-select">สกุลเงิน</label>
+              <select id="currency-select">
+                <option value="THB">฿ THB</option>
+                <option value="USD">$ USD</option>
+                <option value="EUR">€ EUR</option>
+                <option value="JPY">¥ JPY</option>
+                <option value="GBP">£ GBP</option>
+              </select>
+            </div>
+            <p id="converted-price" class="converted-price"></p>
+          </div>
+
+          <!-- Action Row -->
+          <div class="action-row">
+            <div class="quantity-control">
+              <button id="qty-minus" class="qty-btn">-</button>
+              <input type="number" id="quantity" value="1" min="1" max="10" class="qty-input" readonly>
+              <button id="qty-plus" class="qty-btn">+</button>
+            </div>
+
+            <button id="add-to-cart-btn" class="add-to-cart-btn">
+              <span>เพิ่มลงตะกร้า</span>
+              <i class="fas fa-shopping-cart"></i>
+            </button>
+          </div>
+
+          <div id="out-of-stock-msg" class="out-of-stock-msg" style="display: none;">
+            ❌ สินค้าหมดชั่วคราว
+          </div>
+        </div>
+
+        <!-- Footer Links -->
+        <div class="product-links">
+          <a href="search.html" class="link-btn"><i class="fas fa-arrow-left"></i> ค้นหาเพิ่มเติม</a>
+          <a href="cart.html" class="link-btn">ดูตะกร้าสินค้า <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <footer class="product-footer">
+    <p>&copy; 2024 Doll Pre-Order. All rights reserved.</p>
+    <p>Made with ❤️ by Our Team</p>
+  </footer>
+
+  <script src="../js/cart-utils.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // ดึง product ID จาก URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const productId = urlParams.get('id');
+
+      if (!productId) {
+        alert('ไม่พบรหัสสินค้า');
+        window.location.href = 'search.html';
+        return;
+      }
+
+      // ฟังก์ชันดึงข้อมูลสินค้า
+      async function loadProduct() {
+        try {
+          const response = await fetch(`http://localhost:3000/api/public/products/${productId}`);
+          const data = await response.json();
+
+          if (data.success) {
+            displayProduct(data.data);
+          } else {
+            alert('ไม่พบสินค้า');
+            window.location.href = 'search.html';
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          alert('เกิดข้อผิดพลาดในการโหลดข้อมูล');
+        }
+      }
+
+      // แสดงข้อมูลสินค้า
+      function displayProduct(product) {
+        const nameEl = document.getElementById('product-name');
+        if (nameEl) nameEl.textContent = product.name;
+
+        const brandEl = document.getElementById('product-brand');
+        if (brandEl) brandEl.textContent = product.brand;
+
+        const categoryEl = document.getElementById('product-category');
+        if (categoryEl) categoryEl.textContent = product.category || 'ไม่ระบุหมวดหมู่';
+
+        const priceEl = document.getElementById('product-price');
+        if (priceEl) priceEl.textContent = `฿ ${product.price.toLocaleString()}`;
+
+        const descEl = document.getElementById('product-description');
+        if (descEl) descEl.textContent = product.description || 'ไม่มีคำอธิบาย';
+
+        // รูปภาพ
+        const img = document.getElementById('product-img');
+        if (img) {
+          img.src = product.imageUrl || `https://placehold.co/600x600/FFE5EC/8B6B7B?text=${encodeURIComponent(product.name)}`;
+          img.alt = product.name;
+        }
+
+        // เรตติ้ง
+        const ratingEl = document.getElementById('product-rating');
+        if (ratingEl) {
+          const stars = '★'.repeat(Math.floor(product.rating)) + '☆'.repeat(5 - Math.floor(product.rating));
+          ratingEl.innerHTML = `
+            <span class="stars">${stars}</span>
+            <span class="rating-value">${product.rating} / 5</span>
+          `;
+        }
+
+        // สถานะสินค้า
+        const stockDiv = document.getElementById('product-stock');
+        const addToCartBtn = document.getElementById('add-to-cart-btn');
+        const outOfStockMsg = document.getElementById('out-of-stock-msg');
+
+        if (stockDiv && addToCartBtn && outOfStockMsg) {
+          if (product.inStock) {
+            stockDiv.textContent = '✓ มีสินค้า';
+            stockDiv.classList.remove('out');
+            addToCartBtn.style.display = 'flex';
+            outOfStockMsg.style.display = 'none';
+          } else {
+            stockDiv.textContent = '✗ สินค้าหมด';
+            stockDiv.classList.add('out');
+            addToCartBtn.style.display = 'none';
+            outOfStockMsg.style.display = 'block';
+          }
+        }
+
+        // เก็บข้อมูลสินค้าไว้ใช้
+        window.currentProduct = product;
+
+        // เก็บราคาไว้ใช้แปลงสกุลเงิน
+        window.originalPrice = product.price;
+      }
+
+      // ฟังก์ชันแปลงสกุลเงิน (Public API)
+      async function convertCurrency(amount, toCurrency) {
+        try {
+          const response = await fetch('https://api.exchangerate-api.com/v4/latest/THB');
+          const data = await response.json();
+
+          if (data.rates && data.rates[toCurrency]) {
+            const converted = (amount * data.rates[toCurrency]).toFixed(2);
+            return { success: true, amount: converted, rate: data.rates[toCurrency] };
+          }
+          return { success: false };
+        } catch (error) {
+          console.error('Currency conversion error:', error);
+          return { success: false };
+        }
+      }
+
+      // Event listener สำหรับเปลี่ยนสกุลเงิน
+      const currencySelect = document.getElementById('currency-select');
+      if (currencySelect) {
+        currencySelect.addEventListener('change', async (e) => {
+          const currency = e.target.value;
+          const convertedDiv = document.getElementById('converted-price');
+
+          if (!convertedDiv) return;
+
+          if (currency === 'THB') {
+            convertedDiv.textContent = '';
+            return;
+          }
+
+          convertedDiv.textContent = '...';
+
+          if (window.originalPrice) {
+            const result = await convertCurrency(window.originalPrice, currency);
+
+            if (result.success) {
+              const symbols = { USD: '$', EUR: '€', JPY: '¥', GBP: '£' };
+              convertedDiv.textContent = `≈ ${symbols[currency]} ${result.amount}`;
+            } else {
+              convertedDiv.textContent = 'N/A';
+            }
+          }
+        });
+      }
+
+      // Quantity controls
+      const qtyMinus = document.getElementById('qty-minus');
+      if (qtyMinus) {
+        qtyMinus.addEventListener('click', () => {
+          const qtyInput = document.getElementById('quantity');
+          if (qtyInput && qtyInput.value > 1) {
+            qtyInput.value = parseInt(qtyInput.value) - 1;
+          }
+        });
+      }
+
+      const qtyPlus = document.getElementById('qty-plus');
+      if (qtyPlus) {
+        qtyPlus.addEventListener('click', () => {
+          const qtyInput = document.getElementById('quantity');
+          if (qtyInput && qtyInput.value < 10) {
+            qtyInput.value = parseInt(qtyInput.value) + 1;
+          }
+        });
+      }
+
+      // Add to cart
+      const addToCartBtn = document.getElementById('add-to-cart-btn');
+      if (addToCartBtn) {
+        addToCartBtn.addEventListener('click', () => {
+          if (!window.currentProduct) {
+            alert('ไม่พบข้อมูลสินค้า');
+            return;
+          }
+
+          const qtyInput = document.getElementById('quantity');
+          const quantity = qtyInput ? parseInt(qtyInput.value) : 1;
+
+          const cartItem = {
+            productId: window.currentProduct._id,
+            name: window.currentProduct.name,
+            price: window.currentProduct.price,
+            quantity: quantity,
+            imageUrl: window.currentProduct.imageUrl,
+            brand: window.currentProduct.brand
+          };
+
+          addToCart(cartItem);
+
+          // Animation
+          const originalContent = addToCartBtn.innerHTML;
+          addToCartBtn.innerHTML = '<span>เรียบร้อย!</span>';
+          addToCartBtn.style.background = 'var(--accent-gold)';
+
+          setTimeout(() => {
+            addToCartBtn.innerHTML = originalContent;
+            addToCartBtn.style.background = '';
+          }, 1500);
+
+          // Reset quantity
+          if (qtyInput) qtyInput.value = 1;
+        });
+      }
+
+      // โหลดสินค้าตอนเปิดหน้า
+      loadProduct();
+    });
+  </script>
+</body>
+
+</html>

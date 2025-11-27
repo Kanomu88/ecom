@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ติดตามคำสั่งซื้อ - PINKORY</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/order-track.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="../img/logo.png">
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-left">
+                <a href="../pages/search.html" class="search-link">🔍 ค้นหาสินค้า</a>
+                <a href="../pages/index.html" class="nav-item home">Home</a>
+            </div>
+            <div class="nav-center">
+                <a href="../pages/index.html">
+                    <img src="../img/logo.png" alt="Doll Pre-Order Logo">
+                </a>
+            </div>
+            <div class="nav-right">
+                <a href="../pages/cart.html" class="nav-item cart-link">
+                    🛒 ตะกร้า
+                    <span id="cart-badge" class="cart-badge">0</span>
+                </a>
+                <a href="../pages/team.html" class="nav-item">About Us</a>
+                <a href="../pages/login.html" class="login-btn">เข้าสู่ระบบ</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="track-container">
+        <h1 style="text-align: center; color: var(--text-color); margin-bottom: 30px;">ติดตามคำสั่งซื้อ</h1>
+        
+        <div class="track-form">
+            <form id="track-form">
+                <div class="form-group">
+                    <label>หมายเลขคำสั่งซื้อ</label>
+                    <input type="text" id="orderNumber" placeholder="ORD-20251127-001" required>
+                </div>
+                <div class="form-group">
+                    <label>อีเมล</label>
+                    <input type="email" id="email" placeholder="your@email.com" required>
+                </div>
+                <button type="submit" class="track-btn">🔍 ค้นหาคำสั่งซื้อ</button>
+            </form>
+        </div>
+
+        <div id="order-detail" class="order-detail">
+            <h2>📦 คำสั่งซื้อ: <span id="detail-order-number"></span></h2>
+            
+            <div class="order-meta">
+                <div class="meta-item">
+                    <div class="meta-label">📅 วันที่สั่งซื้อ</div>
+                    <div class="meta-value" id="detail-date"></div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">📊 สถานะ</div>
+                    <div class="meta-value" id="detail-status"></div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">👤 ผู้สั่ง</div>
+                    <div class="meta-value" id="detail-customer"></div>
+                </div>
+            </div>
+            
+            <h3>📍 สถานะการจัดส่ง</h3>
+            <div class="status-timeline" id="status-timeline"></div>
+            
+            <h3>🛍️ รายการสินค้า</h3>
+            <div class="order-items" id="order-items"></div>
+            
+            <div class="order-total">
+                ยอดรวมทั้งหมด: <span id="detail-total"></span>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2024 PINKORY. All rights reserved.</p>
+    </footer>
+
+    <script src="../js/cart-utils.js"></script>
+    <script>
+        // Auto-fill from order-success page
+        window.addEventListener('DOMContentLoaded', () => {
+            const trackOrderNumber = sessionStorage.getItem('trackOrderNumber');
+            const trackEmail = sessionStorage.getItem('trackEmail');
+            
+            if (trackOrderNumber && trackEmail) {
+                document.getElementById('orderNumber').value = trackOrderNumber;
+                document.getElementById('email').value = trackEmail;
+                
+                // Auto-submit the form
+                setTimeout(() => {
+                    document.getElementById('track-form').dispatchEvent(new Event('submit'));
+                }, 500);
+                
+                // Clear after use
+                sessionStorage.removeItem('trackOrderNumber');
+                sessionStorage.removeItem('trackEmail');
+            }
+        });
+        
+        document.getElementById('track-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const orderNumber = document.getElementById('orderNumber').value.trim();
+            const email = document.getElementById('email').value.trim();
+            
+            // Show loading
+            const btn = e.target.querySelector('.track-btn');
+            const originalText = btn.textContent;
+            btn.textContent = '🔍 กำลังค้นหา...';
+            btn.disabled = true;
+            
+            try {
+                const response = await fetch(`http://localhost:3000/api/orders/track?orderNumber=${orderNumber}&email=${email}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayOrder(data.data);
+                } else {
+                    alert(data.message || 'ไม่พบคำสั่งซื้อ กรุณาตรวจสอบข้อมูลอีกครั้ง');
+                }
+            } catch (error) {
+                alert('เกิดข้อผิดพลาด: ' + error.message);
+            } finally {
+                btn.textContent = originalText;
+                btn.disabled = false;
+            }
+        });
+        
+        function displayOrder(order) {
+            // Basic info
+            document.getElementById('detail-order-number').textContent = order.orderNumber;
+            document.getElementById('detail-date').textContent = new Date(order.createdAt).toLocaleDateString('th-TH', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            document.getElementById('detail-total').textContent = `฿${order.totalAmount.toLocaleString()}`;
+            document.getElementById('detail-customer').textContent = `${order.customer.firstName} ${order.customer.lastName}`;
+            
+            // Status
+            const statuses = ['pending', 'paid', 'confirmed', 'shipped', 'delivered'];
+            const statusLabels = {
+                pending: 'รอชำระเงิน',
+                paid: 'ชำระเงินแล้ว',
+                confirmed: 'ยืนยันคำสั่งซื้อ',
+                shipped: 'จัดส่งแล้ว',
+                delivered: 'ได้รับสินค้า'
+            };
+            const statusIcons = {
+                pending: '⏳',
+                paid: '💳',
+                confirmed: '✅',
+                shipped: '🚚',
+                delivered: '📦'
+            };
+            
+            document.getElementById('detail-status').textContent = statusLabels[order.status];
+            
+            const currentIndex = statuses.indexOf(order.status);
+            
+            // Timeline
+            document.getElementById('status-timeline').innerHTML = statuses.map((status, index) => {
+                const className = index < currentIndex ? 'completed' : index === currentIndex ? 'active' : '';
+                const icon = statusIcons[status];
+                const history = order.statusHistory?.find(h => h.status === status);
+                const time = history ? new Date(history.timestamp).toLocaleString('th-TH', {
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                }) : '';
+                
+                return `
+                    <div class="status-step ${className}">
+                        <div class="status-icon">${icon}</div>
+                        <div class="status-info">
+                            <div class="status-title">${statusLabels[status]}</div>
+                            ${time ? `<div class="status-time">${time}</div>` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            // Items
+            document.getElementById('order-items').innerHTML = order.items.map(item => `
+                <div class="order-item">
+                    <div class="item-info">
+                        <div class="item-name">${item.name}</div>
+                        <div class="item-details">จำนวน: ${item.quantity} | ราคา: ฿${item.price.toLocaleString()}</div>
+                    </div>
+                    <div class="item-price">฿${(item.price * item.quantity).toLocaleString()}</div>
+                </div>
+            `).join('');
+            
+            // Show detail
+            document.getElementById('order-detail').style.display = 'block';
+            
+            // Scroll to detail
+            document.getElementById('order-detail').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,129 @@
+/* ========================================
+   LOGIN PAGE STYLES - Luxurious Theme
+   ======================================== */
+
+.login-container {
+    max-width: 480px;
+    margin: 100px auto;
+    padding: 60px 40px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 20px 60px rgba(255, 182, 193, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(255, 182, 193, 0.3);
+    animation: scaleIn 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0.95);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.login-container h2 {
+    text-align: center;
+    color: var(--text-primary);
+    margin-bottom: 40px;
+    font-size: 2.5em;
+    font-weight: 700;
+    font-family: 'Playfair Display', serif;
+}
+
+.form-group {
+    margin-bottom: 25px;
+    animation: fadeIn 0.6s ease-out;
+}
+
+.form-group:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.form-group:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 14px 20px;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    background: white;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    color: var(--text-primary);
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 0 3px rgba(255, 182, 193, 0.2);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.login-btn-submit {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--accent-gold), var(--accent-rose));
+    color: white;
+    border: none;
+    border-radius: var(--radius-full);
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 15px;
+    font-family: 'Lato', sans-serif;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3);
+}
+
+.login-btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 105, 180, 0.5);
+    background: linear-gradient(135deg, var(--accent-rose), var(--accent-gold));
+}
+
+.login-btn-submit:active {
+    transform: translateY(0);
+}
+
+.back-link {
+    display: block;
+    text-align: center;
+    margin-top: 30px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 15px;
+    transition: color 0.3s ease;
+}
+
+.back-link:hover {
+    color: var(--accent-gold);
+    text-decoration: underline;
+}

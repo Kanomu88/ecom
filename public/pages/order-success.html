@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สั่งซื้อสำเร็จ - PINKORY</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/order-success.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="../img/logo.png">
+</head>
+
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-left">
+                <a href="index.html" class="nav-item home">Home</a>
+                <a href="search.html" class="nav-item">🔍 ค้นหาสินค้า</a>
+            </div>
+            <div class="nav-center">
+                <a href="index.html">
+                    <img src="../img/logo.png" alt="PINKORY Logo">
+                </a>
+            </div>
+            <div class="nav-right">
+                <a href="cart.html" class="nav-item cart-link">
+                    🛒 ตะกร้า
+                    <span id="cart-badge" class="cart-badge">0</span>
+                </a>
+                <a href="team.html" class="nav-item">About Us</a>
+                <a href="login.html" class="login-btn">เข้าสู่ระบบ</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="success-container">
+        <div class="success-box">
+            <div class="step-indicator" style="margin-bottom: 30px;">
+                <div class="step completed">1. ข้อมูลการจัดส่ง</div>
+                <div class="step completed">2. ชำระเงิน</div>
+                <div class="step completed">3. เสร็จสิ้น</div>
+            </div>
+
+            <div class="success-icon">✓</div>
+            <h1>สั่งซื้อสำเร็จ!</h1>
+            <p>ขอบคุณที่ใช้บริการ PINKORY</p>
+            <p>เราได้รับคำสั่งซื้อของคุณเรียบร้อยแล้ว</p>
+
+            <div class="order-number">
+                <div class="order-number-label">หมายเลขคำสั่งซื้อ</div>
+                <div class="order-number-value" id="order-number">-</div>
+            </div>
+
+            <div class="info-box">
+                <p>📧 เราได้ส่งรายละเอียดคำสั่งซื้อไปยังอีเมล: <strong id="customer-email">-</strong></p>
+                <p>📦 คุณสามารถติดตามสถานะคำสั่งซื้อได้ด้วยหมายเลขด้านบน</p>
+                <p>💳 ยอดชำระ: <strong id="order-total">฿0</strong></p>
+            </div>
+
+            <div class="action-buttons">
+                <a href="#" id="track-order-btn" class="btn btn-primary">📍 ติดตามคำสั่งซื้อ</a>
+                <a href="index.html" class="btn btn-secondary">🏠 กลับหน้าแรก</a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2024 PINKORY. All rights reserved.</p>
+    </footer>
+
+    <script src="../js/cart-utils.js"></script>
+    <script>
+        // Get completed order
+        const orderData = JSON.parse(sessionStorage.getItem('completedOrder') || '{}');
+
+        if (orderData.orderNumber) {
+            document.getElementById('order-number').textContent = orderData.orderNumber;
+            document.getElementById('order-total').textContent = `฿${orderData.totalAmount?.toLocaleString() || '0'}`;
+
+            // Get customer email from sessionStorage or order data
+            const customerEmail = sessionStorage.getItem('customerEmail') || 'อีเมลของคุณ';
+            document.getElementById('customer-email').textContent = customerEmail;
+
+            // Setup track order button with auto-fill
+            document.getElementById('track-order-btn').addEventListener('click', (e) => {
+                e.preventDefault();
+                // Save order info for auto-fill in track page
+                sessionStorage.setItem('trackOrderNumber', orderData.orderNumber);
+                sessionStorage.setItem('trackEmail', customerEmail);
+                window.location.href = 'order-track.html';
+            });
+
+            // Clear cart
+            clearCart();
+
+            // Create confetti effect
+            createConfetti();
+
+            // Clear completed order after 5 seconds (keep track info)
+            setTimeout(() => {
+                sessionStorage.removeItem('currentOrder');
+                sessionStorage.removeItem('completedOrder');
+            }, 5000);
+        } else {
+            document.getElementById('order-number').textContent = 'ไม่พบข้อมูล';
+        }
+
+        // Confetti animation
+        function createConfetti() {
+            const colors = ['#FF85A2', '#FFB6C1', '#FFC2D1', '#4CAF50', '#FFD700'];
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDelay = Math.random() * 2 + 's';
+                    document.body.appendChild(confetti);
+
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 30);
+            }
+        }
+    </script>
+</body>
+
+</html>

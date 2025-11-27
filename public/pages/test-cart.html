@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ทดสอบตะกร้า - Debug</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <style>
+        .debug-container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        .debug-section {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .debug-section h2 {
+            color: var(--accent-pink);
+            margin-bottom: 15px;
+        }
+        pre {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .btn-primary {
+            background: var(--accent-pink);
+            color: white;
+        }
+        .btn-danger {
+            background: #f44336;
+            color: white;
+        }
+        .btn-success {
+            background: #4CAF50;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-left">
+                <a href="index.html" class="nav-item home">Home</a>
+            </div>
+            <div class="nav-center">
+                <a href="index.html">
+                    <img src="../img/logo.png" alt="PINKORY Logo">
+                </a>
+            </div>
+            <div class="nav-right">
+                <a href="cart.html" class="nav-item">กลับไปตะกร้า</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="debug-container">
+        <h1>🔧 ทดสอบและ Debug ตะกร้าสินค้า</h1>
+
+        <div class="debug-section">
+            <h2>📦 ข้อมูลในตะกร้า</h2>
+            <pre id="cart-data">กำลังโหลด...</pre>
+            <div class="btn-group">
+                <button class="btn btn-primary" onclick="refreshCart()">🔄 รีเฟรช</button>
+                <button class="btn btn-danger" onclick="clearCartDebug()">🗑️ ล้างตะกร้า</button>
+            </div>
+        </div>
+
+        <div class="debug-section">
+            <h2>✅ ตรวจสอบข้อมูล</h2>
+            <div id="validation-result"></div>
+        </div>
+
+        <div class="debug-section">
+            <h2>🧪 เพิ่มสินค้าทดสอบ</h2>
+            <p>เพิ่มสินค้าตัวอย่างเพื่อทดสอบ (ใช้ productId จริงจากฐานข้อมูล)</p>
+            <input type="text" id="test-product-id" placeholder="Product ID (เช่น 691e21e4129b8f8e4ce30e0d)" style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px;">
+            <div class="btn-group">
+                <button class="btn btn-success" onclick="addTestProduct()">➕ เพิ่มสินค้าทดสอบ</button>
+            </div>
+        </div>
+
+        <div class="debug-section">
+            <h2>🔗 ลิงก์ทดสอบ</h2>
+            <div class="btn-group">
+                <a href="search.html" class="btn btn-primary">ค้นหาสินค้า</a>
+                <a href="cart.html" class="btn btn-primary">ไปที่ตะกร้า</a>
+                <a href="checkout.html" class="btn btn-success">ไปที่ Checkout</a>
+            </div>
+        </div>
+    </main>
+
+    <script src="../js/cart-utils.js"></script>
+    <script>
+        function refreshCart() {
+            const cart = getCart();
+            document.getElementById('cart-data').textContent = JSON.stringify(cart, null, 2);
+            validateCart();
+        }
+
+        function validateCart() {
+            const cart = getCart();
+            const result = document.getElementById('validation-result');
+            
+            if (cart.length === 0) {
+                result.innerHTML = '<p style="color: orange;">⚠️ ตะกร้าว่างเปล่า</p>';
+                return;
+            }
+
+            let html = '<ul style="list-style: none; padding: 0;">';
+            let hasError = false;
+
+            cart.forEach((item, index) => {
+                const errors = [];
+                
+                if (!item.productId && !item.id && !item._id) {
+                    errors.push('❌ ไม่มี productId');
+                    hasError = true;
+                }
+                if (!item.name) errors.push('❌ ไม่มีชื่อสินค้า');
+                if (!item.price || isNaN(item.price)) errors.push('❌ ราคาไม่ถูกต้อง');
+                if (!item.quantity || isNaN(item.quantity)) errors.push('❌ จำนวนไม่ถูกต้อง');
+
+                const status = errors.length === 0 ? '✅' : '❌';
+                html += `<li style="margin: 10px 0; padding: 10px; background: ${errors.length === 0 ? '#e8f5e9' : '#ffebee'}; border-radius: 8px;">
+                    <strong>${status} สินค้า #${index + 1}: ${item.name || 'ไม่มีชื่อ'}</strong><br>
+                    ProductID: ${item.productId || item.id || item._id || 'ไม่มี'}<br>
+                    Price: ${item.price}<br>
+                    Quantity: ${item.quantity}<br>
+                    ${errors.length > 0 ? '<span style="color: red;">' + errors.join(', ') + '</span>' : ''}
+                </li>`;
+            });
+
+            html += '</ul>';
+
+            if (hasError) {
+                html = '<p style="color: red; font-weight: bold;">⚠️ พบข้อผิดพลาดในตะกร้า กรุณาลบสินค้าและเพิ่มใหม่</p>' + html;
+            } else {
+                html = '<p style="color: green; font-weight: bold;">✅ ข้อมูลในตะกร้าถูกต้องทั้งหมด</p>' + html;
+            }
+
+            result.innerHTML = html;
+        }
+
+        function clearCartDebug() {
+            if (confirm('ต้องการล้างตะกร้าทั้งหมดหรือไม่?')) {
+                clearCart();
+                refreshCart();
+                alert('ล้างตะกร้าเรียบร้อย');
+            }
+        }
+
+        async function addTestProduct() {
+            const productId = document.getElementById('test-product-id').value.trim();
+            
+            if (!productId) {
+                alert('กรุณาใส่ Product ID');
+                return;
+            }
+
+            try {
+                // ดึงข้อมูลสินค้าจาก API
+                const response = await fetch(`http://localhost:3000/api/public/products/${productId}`);
+                const data = await response.json();
+
+                if (data.success && data.data) {
+                    const product = data.data;
+                    const cartItem = {
+                        productId: product._id,
+                        name: product.name,
+                        price: product.price,
+                        quantity: 1,
+                        imageUrl: product.imageUrl || '',
+                        brand: product.brand || ''
+                    };
+
+                    addToCart(cartItem);
+                    alert('✅ เพิ่มสินค้าสำเร็จ: ' + product.name);
+                    refreshCart();
+                } else {
+                    alert('❌ ไม่พบสินค้า: ' + (data.message || 'Unknown error'));
+                }
+            } catch (error) {
+                alert('❌ เกิดข้อผิดพลาด: ' + error.message);
+            }
+        }
+
+        // โหลดข้อมูลเมื่อเปิดหน้า
+        refreshCart();
+    </script>
+</body>
+</html>

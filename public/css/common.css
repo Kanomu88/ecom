@@ -1,0 +1,426 @@
+/* ========================================
+   COMMON STYLES - White-Pink Theme
+   ======================================== */
+
+/* Import Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&display=swap');
+
+/* Reset & Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* CSS Variables */
+:root {
+    /* Palette: White-Pink & Soft Rose Theme */
+    --primary-color: #FFB7C5;
+    /* Cherry Blossom Pink */
+    --secondary-color: #FFD1DC;
+    /* Pastel Pink */
+    --accent-gold: #FF9EAA;
+    /* Soft Salmon Pink */
+    --accent-gold-light: #FFE4E1;
+    /* Misty Rose */
+    --accent-rose: #FF69B4;
+    /* Hot Pink for accents */
+
+    --bg-cream: #FFF0F5;
+    /* Lavender Blush (White-Pink) */
+    --bg-white: #FFFFFF;
+    --bg-glass: rgba(255, 255, 255, 0.9);
+    /* More opaque white-pink glass */
+
+    --text-primary: #4A4A4A;
+    /* Dark Gray */
+    --text-secondary: #7A7A7A;
+    --text-gold: #D87093;
+    /* Pale Violet Red */
+
+    --border-gold: #FFB7C5;
+    --border-light: #FFE4E1;
+
+    /* Shadows */
+    --shadow-sm: 0 4px 6px rgba(255, 182, 193, 0.2);
+    --shadow-md: 0 8px 15px rgba(255, 182, 193, 0.3);
+    --shadow-lg: 0 15px 30px rgba(255, 105, 180, 0.3);
+    --shadow-glass: 0 8px 32px 0 rgba(255, 192, 203, 0.2);
+
+    /* Border Radius */
+    --radius-sm: 8px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+    --radius-full: 50px;
+}
+
+body {
+    font-family: 'Lato', sans-serif;
+    background-color: var(--bg-cream);
+    color: var(--text-primary);
+    line-height: 1.7;
+    font-size: 16px;
+    background-image: radial-gradient(circle at 10% 20%, rgba(255, 182, 193, 0.1) 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(255, 192, 203, 0.1) 0%, transparent 20%);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Playfair Display', serif;
+    color: var(--text-primary);
+    margin-bottom: 0.5em;
+    font-weight: 700;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease;
+}
+
+main {
+    flex: 1;
+}
+
+/* ========================================
+   HEADER & NAVIGATION
+   ======================================== */
+.header {
+    z-index: 1000;
+    position: sticky;
+    top: 0;
+    background: var(--bg-glass);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(230, 164, 180, 0.3);
+    box-shadow: var(--shadow-sm);
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 5%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.nav-left,
+.nav-center,
+.nav-right {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    flex: 1;
+}
+
+.nav-left {
+    justify-content: flex-start;
+}
+
+.nav-center {
+    justify-content: center;
+}
+
+.nav-right {
+    justify-content: flex-end;
+}
+
+/* Logo */
+.nav-center img {
+    height: 65px;
+    width: auto;
+    transition: transform 0.3s ease;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.nav-center img:hover {
+    transform: scale(1.05);
+}
+
+/* Nav Items */
+.nav-item {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--text-primary);
+    padding: 8px 12px;
+    position: relative;
+}
+
+.nav-item::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    background-color: var(--accent-gold);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.nav-item:hover {
+    color: var(--accent-gold);
+}
+
+.nav-item:hover::after {
+    width: 80%;
+}
+
+/* Buttons in Nav */
+.login-btn {
+    background: linear-gradient(135deg, var(--primary-color), #FF8FA3);
+    color: white;
+    padding: 10px 25px;
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    box-shadow: 0 4px 10px rgba(255, 182, 193, 0.4);
+    border: none;
+    font-family: 'Lato', sans-serif;
+    letter-spacing: 0.5px;
+}
+
+.login-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(255, 182, 193, 0.6);
+}
+
+.search-link {
+    border: 1px solid var(--border-gold);
+    padding: 8px 20px;
+    border-radius: var(--radius-full);
+    color: var(--text-gold);
+    font-size: 14px;
+    background: transparent;
+}
+
+.search-link:hover {
+    background: var(--accent-gold);
+    color: white;
+}
+
+/* Cart Badge */
+.cart-link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.cart-badge {
+    position: absolute;
+    top: -8px;
+    right: -12px;
+    background: var(--accent-rose);
+    color: white;
+    border-radius: 50%;
+    min-width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    padding: 0 5px;
+}
+
+.cart-badge:empty {
+    display: none;
+}
+
+/* ========================================
+   BUTTONS & UI ELEMENTS
+   ======================================== */
+
+.btn {
+    padding: 12px 28px;
+    border: none;
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    font-family: 'Lato', sans-serif;
+    letter-spacing: 0.5px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--accent-gold), #D4849C);
+    color: white;
+    box-shadow: 0 4px 10px rgba(230, 164, 180, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(230, 164, 180, 0.5);
+}
+
+.btn-secondary {
+    background: white;
+    color: var(--text-primary);
+    border: 1px solid var(--border-gold);
+}
+
+.btn-secondary:hover {
+    background: var(--bg-cream);
+    border-color: var(--accent-gold);
+}
+
+/* Glass Panel Utility */
+.glass-panel {
+    background: var(--bg-glass);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: var(--shadow-glass);
+    border-radius: var(--radius-md);
+}
+
+/* ========================================
+   FORMS
+   ======================================== */
+
+.form-group {
+    margin-bottom: 24px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 14px 20px;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    background: white;
+    font-size: 15px;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 0 3px rgba(230, 164, 180, 0.15);
+}
+
+/* ========================================
+   FOOTER
+   ======================================== */
+
+footer {
+    background: linear-gradient(to bottom, #FFF0F5, #FFE4E9);
+    padding: 40px 20px;
+    text-align: center;
+    border-top: 1px solid rgba(255, 182, 193, 0.3);
+    margin-top: auto;
+}
+
+footer p {
+    color: var(--text-secondary);
+    font-size: 14px;
+    margin: 8px 0;
+}
+
+/* ========================================
+   ANIMATIONS
+   ======================================== */
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.slide-up {
+    animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* ========================================
+   RESPONSIVE NAVIGATION
+   ======================================== */
+
+@media (max-width: 968px) {
+    .navbar {
+        padding: 12px 3%;
+    }
+
+    .nav-left,
+    .nav-right {
+        gap: 15px;
+    }
+
+    .nav-item {
+        font-size: 14px;
+        padding: 6px 10px;
+    }
+
+    .nav-center img {
+        height: 55px;
+    }
+
+    .login-btn {
+        padding: 8px 20px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        flex-wrap: wrap;
+        padding: 10px 3%;
+    }
+
+    .nav-left,
+    .nav-right {
+        gap: 10px;
+    }
+
+    .nav-item {
+        font-size: 13px;
+        padding: 5px 8px;
+    }
+
+    .nav-center {
+        order: -1;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .nav-center img {
+        height: 50px;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-item span {
+        display: none;
+    }
+
+    .login-btn {
+        padding: 6px 15px;
+        font-size: 13px;
+    }
+}

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ค้นหาสินค้า - Doll Pre-Order</title>
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/search.css">
+  <link rel="stylesheet" href="../css/footer.css">
+  <link rel="icon" type="image/x-icon" href="../img/logo.png">
+</head>
+
+<body>
+  <header class="header">
+    <nav class="navbar">
+      <div class="nav-left">
+        <a href="../pages/search.html" class="search-link">🔍 ค้นหาสินค้า</a>
+        <a href="../pages/index.html" class="nav-item home">Home</a>
+      </div>
+      <div class="nav-center">
+        <a href="../pages/index.html">
+          <img src="../img/logo.png" alt="Doll Pre-Order Logo">
+        </a>
+      </div>
+      <div class="nav-right">
+        <a href="../pages/cart.html" class="nav-item cart-link">
+          🛒 ตะกร้า
+          <span id="cart-badge" class="cart-badge">0</span>
+        </a>
+        <a href="../pages/team.html" class="nav-item">About Us</a>
+        <a href="../pages/login.html" class="login-btn" id="auth-btn">เข้าสู่ระบบ</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="search-container">
+    <div class="search-form">
+      <h2>🔍 ค้นหาสินค้า</h2>
+      <form id="search-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="search-name">ชื่อสินค้า</label>
+            <input type="text" id="search-name" placeholder="เช่น Bunny, Bear">
+          </div>
+          <div class="form-group">
+            <label for="search-brand">แบรนด์</label>
+            <select id="search-brand">
+              <option value="">ทั้งหมด</option>
+              <option value="Jellycat">Jellycat</option>
+              <option value="Care Bear">Care Bear</option>
+              <option value="Steiff">Steiff</option>
+              <option value="Gund">Gund</option>
+              <option value="Squishmallows">Squishmallows</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="search-rating">เรตติ้งขั้นต่ำ</label>
+            <select id="search-rating">
+              <option value="">ทั้งหมด</option>
+              <option value="5">5 ดาว</option>
+              <option value="4.5">4.5 ดาวขึ้นไป</option>
+              <option value="4">4 ดาวขึ้นไป</option>
+            </select>
+          </div>
+        </div>
+        <div class="search-btn-container">
+          <button type="submit" class="search-btn">🔍 ค้นหาสินค้า</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="results-container">
+      <div class="results-header">
+        <h3>ผลการค้นหา</h3>
+        <span id="result-count">0 รายการ</span>
+      </div>
+      <div id="results-grid" class="product-grid"></div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 Doll Pre-Order. All rights reserved.</p>
+    <p>Made with ❤️ by Our Team</p>
+  </footer>
+
+  <script>
+    // Check Login Status
+    function checkLoginStatus() {
+      const token = localStorage.getItem('token');
+      const authBtn = document.getElementById('auth-btn');
+      if (token) {
+        authBtn.textContent = 'ออกจากระบบ';
+        authBtn.href = '#';
+        authBtn.onclick = (e) => {
+          e.preventDefault();
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+          window.location.reload();
+        };
+      }
+    }
+    checkLoginStatus();
+
+    // ฟังก์ชันดึงสินค้าทั้งหมด
+    async function loadAllProducts() {
+      try {
+        const response = await fetch('http://localhost:3000/api/public/products');
+        const data = await response.json();
+
+        if (data.success) {
+          displayResults(data.data);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('results-grid').innerHTML = '<p style="text-align:center; color: var(--text-secondary);">เกิดข้อผิดพลาดในการโหลดสินค้า</p>';
+      }
+    }
+
+    // ฟังก์ชันค้นหาสินค้า
+    document.getElementById('search-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById('search-name').value;
+      const brand = document.getElementById('search-brand').value;
+      const rating = document.getElementById('search-rating').value;
+
+      const params = new URLSearchParams();
+      if (name) params.append('name', name);
+      if (brand) params.append('brand', brand);
+      if (rating) params.append('rating', rating);
+
+      try {
+        const response = await fetch(`http://localhost:3000/api/public/products?${params}`);
+        const data = await response.json();
+
+        if (data.success) {
+          displayResults(data.data);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('results-grid').innerHTML = '<p style="text-align:center; color: var(--text-secondary);">เกิดข้อผิดพลาดในการค้นหา</p>';
+      }
+    });
+
+    // แสดงผลลัพธ์
+    function displayResults(products) {
+      const grid = document.getElementById('results-grid');
+      const count = document.getElementById('result-count');
+
+      count.textContent = `${products.length} รายการ`;
+
+      if (products.length === 0) {
+        grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-secondary);">ไม่พบสินค้าที่ค้นหา</p>';
+        return;
+      }
+
+      grid.innerHTML = products.map(p => `
+            <article class="product-card">
+              <figure class="product-image-container">
+                <img src="${p.imageUrl || 'https://placehold.co/400x500/FFE5EC/8B6B7B?text=' + encodeURIComponent(p.name)}" 
+                     alt="${p.name}" 
+                     onerror="this.src='https://placehold.co/400x500/FFE5EC/8B6B7B?text=${encodeURIComponent(p.name)}'">
+              </figure>
+              <h3>${p.name}</h3>
+              <p class="brand">${p.brand}</p>
+              <div class="stars">
+                <span>${'★'.repeat(Math.floor(p.rating))}${'☆'.repeat(5 - Math.floor(p.rating))}</span>
+              </div>
+              <span class="rating-text">⭐ ${p.rating}</span>
+              <p class="price">฿ ${p.price.toLocaleString()}</p>
+              <a href="product-detail.html?id=${p._id}" class="details-btn">ดูรายละเอียด</a>
+            </article>
+          `).join('');
+    }
+
+    loadAllProducts();
+  </script>
+
+  <script src="../js/cart-utils.js"></script>
+</body>
+
+</html>

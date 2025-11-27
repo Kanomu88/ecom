@@ -1,0 +1,301 @@
+/* ========================================
+   TEAM PAGE STYLES - Luxurious Theme
+   ======================================== */
+
+.team-container {
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 20px;
+    animation: fadeIn 0.6s ease-out;
+}
+
+.team-header {
+    text-align: center;
+    margin-bottom: 60px;
+    animation: slideIn 0.8s ease-out;
+}
+
+.team-header h1 {
+    font-size: 3em;
+    color: var(--text-primary);
+    margin-bottom: 20px;
+    position: relative;
+    display: inline-block;
+    font-weight: 700;
+    font-family: 'Playfair Display', serif;
+}
+
+.team-header h1::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: var(--accent-gold);
+    border-radius: 2px;
+}
+
+.team-header p {
+    font-size: 1.2em;
+    color: var(--text-secondary);
+    margin-top: 35px;
+    line-height: 1.8;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+    margin-top: 50px;
+}
+
+.team-member {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: var(--radius-lg);
+    padding: 35px 20px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(255, 182, 193, 0.25),
+        0 0 0 1px rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(255, 182, 193, 0.3);
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    animation: scaleIn 0.6s ease-out;
+}
+
+.team-member:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(255, 182, 193, 0.35);
+    border-color: var(--accent-gold);
+}
+
+.team-member:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.team-member:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.team-member:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.team-member:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+.member-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin: 0 auto 25px;
+    overflow: hidden;
+    border: 3px solid var(--border-gold);
+    transition: all 0.4s ease;
+    position: relative;
+    box-shadow: var(--shadow-sm);
+}
+
+.team-member:hover .member-image {
+    transform: scale(1.05);
+    border-color: var(--primary-color);
+}
+
+.member-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.team-member:hover .member-image img {
+    transform: scale(1.1);
+}
+
+.member-name {
+    font-size: 1.4em;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    font-family: 'Playfair Display', serif;
+    transition: color 0.3s ease;
+}
+
+.team-member:hover .member-name {
+    color: var(--accent-gold);
+}
+
+.member-role {
+    color: var(--accent-gold);
+    font-size: 0.95em;
+    margin-bottom: 15px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.member-bio {
+    color: var(--text-secondary);
+    font-size: 0.95em;
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.social-link {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: white;
+    border: 1px solid var(--border-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 1.1em;
+    transition: all 0.3s ease;
+}
+
+.social-link:hover {
+    background: var(--accent-gold);
+    border-color: var(--accent-gold);
+    color: white;
+    transform: translateY(-3px);
+}
+
+.company-info {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: var(--radius-lg);
+    padding: 60px;
+    margin-top: 80px;
+    box-shadow: 0 10px 30px rgba(255, 182, 193, 0.25),
+        0 0 0 1px rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(255, 182, 193, 0.3);
+    text-align: center;
+    animation: fadeIn 1s ease-out;
+}
+
+.company-info h2 {
+    color: var(--text-primary);
+    margin-bottom: 30px;
+    font-size: 2.2em;
+    font-weight: 700;
+    font-family: 'Playfair Display', serif;
+}
+
+.company-info p {
+    color: var(--text-secondary);
+    line-height: 1.9;
+    font-size: 1.1em;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
+    margin-top: 50px;
+}
+
+.stat-item {
+    padding: 30px;
+    background: var(--bg-cream);
+    border-radius: var(--radius-md);
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.stat-item:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent-gold);
+    box-shadow: var(--shadow-md);
+}
+
+.stat-number {
+    font-size: 2.8em;
+    font-weight: 700;
+    color: var(--accent-gold);
+    margin-bottom: 10px;
+    font-family: 'Playfair Display', serif;
+}
+
+.stat-label {
+    color: var(--text-primary);
+    font-size: 1.1em;
+    font-weight: 600;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-30px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@media (max-width: 1200px) {
+    .team-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .team-header h1 {
+        font-size: 2.2em;
+    }
+
+    .team-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .company-info {
+        padding: 30px;
+    }
+}

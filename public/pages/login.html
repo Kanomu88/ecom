@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>เข้าสู่ระบบ - Doll Pre-Order</title>
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/login.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/footer.css">
+  <link rel="icon" type="image/x-icon" href="../img/logo.png">
+</head>
+
+<body>
+  <header class="header">
+    <nav class="navbar">
+      <div class="nav-left">
+        <a href="../pages/search.html" class="search-link">🔍 ค้นหาสินค้า</a>
+        <a href="../pages/index.html" class="nav-item home">Home</a>
+      </div>
+      <div class="nav-center">
+        <a href="../pages/index.html">
+          <img src="../img/logo.png" alt="Doll Pre-Order Logo">
+        </a>
+      </div>
+      <div class="nav-right">
+        <a href="../pages/cart.html" class="nav-item cart-link">
+          🛒 ตะกร้า
+          <span id="cart-badge" class="cart-badge">0</span>
+        </a>
+        <a href="../pages/team.html" class="nav-item">About Us</a>
+        <a href="../pages/login.html" class="login-btn">เข้าสู่ระบบ</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <div class="login-container">
+      <h2>เข้าสู่ระบบ</h2>
+      <form id="login-form">
+        <div class="form-group">
+          <label for="username">ชื่อผู้ใช้</label>
+          <input type="text" id="username" name="username" placeholder="กรอกชื่อผู้ใช้" required>
+        </div>
+        <div class="form-group">
+          <label for="password">รหัสผ่าน</label>
+          <input type="password" id="password" name="password" placeholder="กรอกรหัสผ่าน" required>
+        </div>
+        <button type="submit" class="login-btn-submit">เข้าสู่ระบบ</button>
+      </form>
+      <a href="index.html" class="back-link">← กลับหน้าหลัก</a>
+    </div>
+  </main>
+
+  <footer
+    style="background: var(--primary-pink); padding: 30px 20px; text-align: center; color: var(--text-color); margin-top: 60px;">
+    <p>&copy; 2024 Doll Pre-Order. All rights reserved.</p>
+    <p>Made with ❤️ by Our Team</p>
+  </footer>
+
+</body>
+
+</html>
+
+<script>
+  // ตรวจสอบว่า login แล้วหรือยัง
+  if (localStorage.getItem('token')) {
+    window.location.href = 'admin-products.html';
+  }
+
+  // จับ event submit form
+  document.getElementById('login-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    // ดึงค่าจาก input
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    try {
+      // เรียก API Login
+      const response = await fetch('http://localhost:3000/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        // เก็บ token และ user ใน localStorage
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+
+        // แสดงข้อความสำเร็จ
+        alert('Login สำเร็จ!');
+
+        // redirect ไปหน้า admin
+        window.location.href = 'admin-products.html';
+      } else {
+        // แสดง error
+        alert(data.message || 'Login ไม่สำเร็จ');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('เกิดข้อผิดพลาด กรุณาลองใหม่');
+    }
+  });
+</script>
+
+</body>
+
+</html>

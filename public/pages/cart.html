@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ตะกร้าสินค้า - PINKORY</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/cart.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="../img/logo.png">
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-container {
+            flex: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-left">
+                <a href="../pages/search.html" class="search-link">🔍 ค้นหาสินค้า</a>
+                <a href="../pages/index.html" class="nav-item home">Home</a>
+            </div>
+            <div class="nav-center">
+                <a href="../pages/index.html">
+                    <img src="../img/logo.png" alt="Doll Pre-Order Logo">
+                </a>
+            </div>
+            <div class="nav-right">
+                <a href="../pages/cart.html" class="nav-item cart-link">
+                    🛒 ตะกร้า
+                    <span id="cart-badge" class="cart-badge">0</span>
+                </a>
+                <a href="../pages/team.html" class="nav-item">About Us</a>
+                <a href="../pages/login.html" class="login-btn">เข้าสู่ระบบ</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="cart-container">
+        <div class="cart-header">
+            <h1>🛒 ตะกร้าสินค้า</h1>
+            <p class="cart-count" id="cart-count-text"></p>
+        </div>
+
+        <!-- Empty Cart -->
+        <div id="empty-cart" class="empty-cart" style="display: none;">
+            <div class="empty-cart-icon">🛒</div>
+            <h2>ตะกร้าสินค้าว่างเปล่า</h2>
+            <p>ยังไม่มีสินค้าในตะกร้า</p>
+            <a href="search.html" class="btn btn-primary">เลือกซื้อสินค้า</a>
+        </div>
+
+        <!-- Cart with Items -->
+        <div id="cart-content" class="cart-layout" style="display: none;">
+            <div>
+                <div class="cart-items" id="cart-items">
+                    <!-- Cart items will be rendered here -->
+                </div>
+            </div>
+
+            <div>
+                <div class="cart-summary">
+                    <h3>สรุปคำสั่งซื้อ</h3>
+                    <div class="summary-row">
+                        <span>จำนวนสินค้า:</span>
+                        <span id="summary-count">0 รายการ</span>
+                    </div>
+                    <div class="summary-row summary-total">
+                        <span>ยอดรวมทั้งหมด:</span>
+                        <span id="summary-total">฿0</span>
+                    </div>
+                    <div class="cart-actions">
+                        <a href="search.html" class="btn btn-secondary">ช้อปปิ้งต่อ</a>
+                        <a href="checkout.html" class="btn btn-primary" id="checkout-btn">ชำระเงิน</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2024 PINKORY Doll Pre-Order. All rights reserved.</p>
+        <p>Made with ❤️ by Our Team</p>
+        <p>
+            <a href="order-track.html" class="footer-link">ติดตามคำสั่งซื้อ</a>
+            <span class="footer-separator">|</span>
+            <a href="test-cart.html" class="footer-link-debug">🔧 Debug</a>
+        </p>
+    </footer>
+
+    <script src="../js/cart-utils.js"></script>
+    <script src="../js/cart.js"></script>
+</body>
+
+</html>
