@@ -6,23 +6,25 @@
     <title>จัดการสินค้า - Admin</title>
     <link rel="stylesheet" href="../css/common.css">
     <link rel="stylesheet" href="../css/admin.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/admin-products.css">
     <link rel="stylesheet" href="../css/footer.css">
     <link rel="icon" type="image/x-icon" href="../img/logo.png">
 </head>
 <body>
-    <header class="header">
+    <header class="header" id="header">
         <nav class="navbar">
             <div class="nav-left">
-                <a href="../pages/search.html" class="search-link">🔍 ค้นหาสินค้า</a>
-                <a href="index.html" class="nav-item home">Home</a>
+                <a href="index.html" class="nav-item">🏠 หน้าแรก</a>
+                <a href="search.html" class="search-link">🔍 ค้นหา</a>
             </div>
             <div class="nav-center">
-                <a href="index.html" class="logo">Admin</a>
+                <a href="index.html">
+                    <img src="../img/logo.png" alt="Doll Pre-Order Logo">
+                </a>
             </div>
             <div class="nav-right">
-                <a onclick="logout()"  href="index.html" class="login-btn">ออกจากระบบ</a>
+                <span class="nav-item">👤 Admin</span>
+                <a onclick="logout()" href="index.html" class="login-btn">ออกจากระบบ</a>
             </div>
         </nav>
     </header>

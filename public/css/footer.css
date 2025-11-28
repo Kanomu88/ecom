@@ -1,26 +1,154 @@
-/* Soft Pastel Footer Styles */
+/* ========================================
+   FOOTER - Premium Footer Design
+   World-Class E-commerce Footer
+   ======================================== */
 
 footer {
-    background: linear-gradient(135deg, var(--pastel-pink) 0%, var(--rose-pink) 100%);
-    padding: 48px 24px;
+    background: linear-gradient(180deg, var(--bg-soft) 0%, white 100%);
+    padding: 56px 24px 36px;
     text-align: center;
-    color: var(--text-primary);
-    margin-top: 80px;
-    border-top: 4px solid var(--primary-pink);
+    border-top: 1px solid var(--border-soft);
+    margin-top: auto;
+    position: relative;
+}
+
+/* Decorative Top Line */
+footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary-pink), var(--accent-hot), var(--accent-deep));
+    border-radius: 2px;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-brand {
+    margin-bottom: 24px;
+}
+
+.footer-brand img {
+    height: 48px;
+    width: auto;
+    filter: drop-shadow(0 2px 8px rgba(255, 105, 180, 0.2));
+    transition: var(--transition-normal);
+}
+
+.footer-brand img:hover {
+    transform: scale(1.05);
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+}
+
+.footer-links a {
+    color: var(--text-medium);
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: var(--transition-fast);
+    padding: 8px 16px;
+    border-radius: var(--radius-full);
+}
+
+.footer-links a:hover {
+    color: var(--accent-hot);
+    background: rgba(255, 105, 180, 0.08);
+}
+
+.footer-social {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 28px;
+}
+
+.footer-social a {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: white;
+    border: 1px solid var(--border-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    transition: var(--transition-normal);
+    box-shadow: var(--shadow-xs);
+}
+
+.footer-social a:hover {
+    background: linear-gradient(135deg, var(--accent-hot), var(--accent-deep));
+    border-color: transparent;
+    color: white;
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(255, 105, 180, 0.35);
 }
 
 footer p {
-    margin: 0;
-    font-size: 15px;
-    color: var(--text-primary);
+    color: var(--text-light);
+    font-size: 0.9rem;
+    margin: 8px 0;
+    line-height: 1.6;
 }
 
-footer p:first-child {
+footer p:first-of-type {
+    color: var(--text-medium);
     font-weight: 600;
-    margin-bottom: 8px;
 }
 
-footer p:last-child {
-    font-size: 14px;
-    color: var(--text-secondary);
+.footer-heart {
+    color: var(--accent-hot);
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+@media (max-width: 768px) {
+    footer {
+        padding: 48px 20px 32px;
+    }
+    
+    .footer-links {
+        gap: 16px;
+    }
+    
+    .footer-links a {
+        padding: 6px 12px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-links {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .footer-social {
+        gap: 12px;
+    }
+    
+    .footer-social a {
+        width: 40px;
+        height: 40px;
+    }
 }

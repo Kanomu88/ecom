@@ -3,18 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ติดตามคำสั่งซื้อ - PINKORY</title>
+    <title>ติดตามคำสั่งซื้อ - Doll Pre-Order</title>
     <link rel="stylesheet" href="../css/common.css">
     <link rel="stylesheet" href="../css/order-track.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="../img/logo.png">
 </head>
 <body>
-    <header class="header">
+    <header class="header" id="header">
         <nav class="navbar">
             <div class="nav-left">
-                <a href="../pages/search.html" class="search-link">🔍 ค้นหาสินค้า</a>
-                <a href="../pages/index.html" class="nav-item home">Home</a>
+                <a href="../pages/search.html" class="search-link">🔍 ค้นหา</a>
+                <a href="../pages/index.html" class="nav-item">หน้าแรก</a>
             </div>
             <div class="nav-center">
                 <a href="../pages/index.html">
@@ -22,65 +21,144 @@
                 </a>
             </div>
             <div class="nav-right">
-                <a href="../pages/cart.html" class="nav-item cart-link">
+                <a href="../pages/cart.html" class="cart-link">
                     🛒 ตะกร้า
                     <span id="cart-badge" class="cart-badge">0</span>
                 </a>
-                <a href="../pages/team.html" class="nav-item">About Us</a>
+                <a href="../pages/team.html" class="nav-item">เกี่ยวกับเรา</a>
                 <a href="../pages/login.html" class="login-btn">เข้าสู่ระบบ</a>
             </div>
         </nav>
     </header>
 
-    <main class="track-container">
-        <h1 style="text-align: center; color: var(--text-color); margin-bottom: 30px;">ติดตามคำสั่งซื้อ</h1>
-        
-        <div class="track-form">
-            <form id="track-form">
-                <div class="form-group">
-                    <label>หมายเลขคำสั่งซื้อ</label>
-                    <input type="text" id="orderNumber" placeholder="ORD-20251127-001" required>
-                </div>
-                <div class="form-group">
-                    <label>อีเมล</label>
-                    <input type="email" id="email" placeholder="your@email.com" required>
-                </div>
-                <button type="submit" class="track-btn">🔍 ค้นหาคำสั่งซื้อ</button>
-            </form>
-        </div>
+    <main class="track-page">
+        <div class="track-container">
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="header-icon">📦</div>
+                <h1>ติดตามคำสั่งซื้อ</h1>
+                <p class="header-subtitle">ตรวจสอบสถานะการจัดส่งของคุณได้ที่นี่</p>
+            </div>
 
-        <div id="order-detail" class="order-detail">
-            <h2>📦 คำสั่งซื้อ: <span id="detail-order-number"></span></h2>
-            
-            <div class="order-meta">
-                <div class="meta-item">
-                    <div class="meta-label">📅 วันที่สั่งซื้อ</div>
-                    <div class="meta-value" id="detail-date"></div>
+            <!-- Search Form Card -->
+            <div class="track-form-card">
+                <form id="track-form">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="orderNumber">
+                                <span class="label-icon">🔢</span>
+                                หมายเลขคำสั่งซื้อ
+                            </label>
+                            <input type="text" id="orderNumber" placeholder="ORD-20251127-001" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">
+                                <span class="label-icon">📧</span>
+                                อีเมลที่ใช้สั่งซื้อ
+                            </label>
+                            <input type="email" id="email" placeholder="your@email.com" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="track-btn">
+                        <span class="btn-icon">🔍</span>
+                        <span class="btn-text">ค้นหาคำสั่งซื้อ</span>
+                        <span class="btn-loader" style="display: none;">
+                            <span class="loader-dot"></span>
+                            <span class="loader-dot"></span>
+                            <span class="loader-dot"></span>
+                        </span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Order Detail Section -->
+            <div id="order-detail" class="order-detail-section" style="display: none;">
+                <!-- Order Header Card -->
+                <div class="order-header-card">
+                    <div class="order-header-left">
+                        <span class="order-badge">คำสั่งซื้อ</span>
+                        <h2 id="detail-order-number">-</h2>
+                    </div>
+                    <div class="order-header-right">
+                        <div class="status-badge" id="detail-status-badge">
+                            <span class="status-dot"></span>
+                            <span id="detail-status">-</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="meta-item">
-                    <div class="meta-label">📊 สถานะ</div>
-                    <div class="meta-value" id="detail-status"></div>
+
+                <!-- Order Info Grid -->
+                <div class="order-info-grid">
+                    <div class="info-card">
+                        <div class="info-icon">📅</div>
+                        <div class="info-content">
+                            <span class="info-label">วันที่สั่งซื้อ</span>
+                            <span class="info-value" id="detail-date">-</span>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-icon">👤</div>
+                        <div class="info-content">
+                            <span class="info-label">ผู้สั่งซื้อ</span>
+                            <span class="info-value" id="detail-customer">-</span>
+                        </div>
+                    </div>
+                    <div class="info-card highlight">
+                        <div class="info-icon">💰</div>
+                        <div class="info-content">
+                            <span class="info-label">ยอดรวม</span>
+                            <span class="info-value price" id="detail-total">฿0</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="meta-item">
-                    <div class="meta-label">👤 ผู้สั่ง</div>
-                    <div class="meta-value" id="detail-customer"></div>
+
+                <!-- Timeline Section -->
+                <div class="timeline-section">
+                    <h3 class="section-title">
+                        <span class="title-icon">📍</span>
+                        สถานะการจัดส่ง
+                    </h3>
+                    <div class="timeline-container" id="status-timeline"></div>
+                </div>
+
+                <!-- Order Items Section -->
+                <div class="items-section">
+                    <h3 class="section-title">
+                        <span class="title-icon">🛍️</span>
+                        รายการสินค้า
+                    </h3>
+                    <div class="items-list" id="order-items"></div>
+                    
+                    <!-- Total Summary -->
+                    <div class="total-summary">
+                        <span class="total-label">ยอดรวมทั้งหมด</span>
+                        <span class="total-value" id="detail-total-bottom">฿0</span>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="detail-actions">
+                    <button onclick="window.print()" class="action-btn secondary">
+                        🖨️ พิมพ์รายละเอียด
+                    </button>
+                    <a href="index.html" class="action-btn primary">
+                        🏠 กลับหน้าแรก
+                    </a>
                 </div>
             </div>
-            
-            <h3>📍 สถานะการจัดส่ง</h3>
-            <div class="status-timeline" id="status-timeline"></div>
-            
-            <h3>🛍️ รายการสินค้า</h3>
-            <div class="order-items" id="order-items"></div>
-            
-            <div class="order-total">
-                ยอดรวมทั้งหมด: <span id="detail-total"></span>
+
+            <!-- Empty State -->
+            <div id="empty-state" class="empty-state" style="display: none;">
+                <div class="empty-icon">🔍</div>
+                <h3>ไม่พบคำสั่งซื้อ</h3>
+                <p>กรุณาตรวจสอบหมายเลขคำสั่งซื้อและอีเมลอีกครั้ง</p>
             </div>
         </div>
     </main>
 
-    <footer class="footer">
-        <p>&copy; 2024 PINKORY. All rights reserved.</p>
+    <footer>
+        <p>&copy; 2024 Doll Pre-Order. All rights reserved.</p>
+        <p>Made with <span class="footer-heart">❤️</span> by Our Team</p>
     </footer>
 
     <script src="../js/cart-utils.js"></script>
@@ -94,12 +172,10 @@
                 document.getElementById('orderNumber').value = trackOrderNumber;
                 document.getElementById('email').value = trackEmail;
                 
-                // Auto-submit the form
                 setTimeout(() => {
                     document.getElementById('track-form').dispatchEvent(new Event('submit'));
                 }, 500);
                 
-                // Clear after use
                 sessionStorage.removeItem('trackOrderNumber');
                 sessionStorage.removeItem('trackEmail');
             }
@@ -110,11 +186,17 @@
             const orderNumber = document.getElementById('orderNumber').value.trim();
             const email = document.getElementById('email').value.trim();
             
-            // Show loading
             const btn = e.target.querySelector('.track-btn');
-            const originalText = btn.textContent;
-            btn.textContent = '🔍 กำลังค้นหา...';
+            const btnText = btn.querySelector('.btn-text');
+            const btnLoader = btn.querySelector('.btn-loader');
+            
+            btnText.style.display = 'none';
+            btnLoader.style.display = 'flex';
             btn.disabled = true;
+            
+            // Hide previous results
+            document.getElementById('order-detail').style.display = 'none';
+            document.getElementById('empty-state').style.display = 'none';
             
             try {
                 const response = await fetch(`http://localhost:3000/api/orders/track?orderNumber=${orderNumber}&email=${email}`);
@@ -123,19 +205,22 @@
                 if (data.success) {
                     displayOrder(data.data);
                 } else {
-                    alert(data.message || 'ไม่พบคำสั่งซื้อ กรุณาตรวจสอบข้อมูลอีกครั้ง');
+                    document.getElementById('empty-state').style.display = 'block';
                 }
             } catch (error) {
-                alert('เกิดข้อผิดพลาด: ' + error.message);
+                document.getElementById('empty-state').style.display = 'block';
             } finally {
-                btn.textContent = originalText;
+                btnText.style.display = 'inline';
+                btnLoader.style.display = 'none';
                 btn.disabled = false;
             }
         });
         
         function displayOrder(order) {
-            // Basic info
+            // Order number
             document.getElementById('detail-order-number').textContent = order.orderNumber;
+            
+            // Date
             document.getElementById('detail-date').textContent = new Date(order.createdAt).toLocaleDateString('th-TH', {
                 year: 'numeric',
                 month: 'long',
@@ -143,11 +228,16 @@
                 hour: '2-digit',
                 minute: '2-digit'
             });
-            document.getElementById('detail-total').textContent = `฿${order.totalAmount.toLocaleString()}`;
+            
+            // Total
+            const totalFormatted = `฿${order.totalAmount.toLocaleString()}`;
+            document.getElementById('detail-total').textContent = totalFormatted;
+            document.getElementById('detail-total-bottom').textContent = totalFormatted;
+            
+            // Customer
             document.getElementById('detail-customer').textContent = `${order.customer.firstName} ${order.customer.lastName}`;
             
             // Status
-            const statuses = ['pending', 'paid', 'confirmed', 'shipped', 'delivered'];
             const statusLabels = {
                 pending: 'รอชำระเงิน',
                 paid: 'ชำระเงินแล้ว',
@@ -155,6 +245,13 @@
                 shipped: 'จัดส่งแล้ว',
                 delivered: 'ได้รับสินค้า'
             };
+            
+            const statusBadge = document.getElementById('detail-status-badge');
+            statusBadge.className = 'status-badge status-' + order.status;
+            document.getElementById('detail-status').textContent = statusLabels[order.status];
+            
+            // Timeline
+            const statuses = ['pending', 'paid', 'confirmed', 'shipped', 'delivered'];
             const statusIcons = {
                 pending: '⏳',
                 paid: '💳',
@@ -163,14 +260,13 @@
                 delivered: '📦'
             };
             
-            document.getElementById('detail-status').textContent = statusLabels[order.status];
-            
             const currentIndex = statuses.indexOf(order.status);
             
-            // Timeline
             document.getElementById('status-timeline').innerHTML = statuses.map((status, index) => {
-                const className = index < currentIndex ? 'completed' : index === currentIndex ? 'active' : '';
-                const icon = statusIcons[status];
+                let className = '';
+                if (index < currentIndex) className = 'completed';
+                else if (index === currentIndex) className = 'active';
+                
                 const history = order.statusHistory?.find(h => h.status === status);
                 const time = history ? new Date(history.timestamp).toLocaleString('th-TH', {
                     month: 'short',
@@ -180,11 +276,13 @@
                 }) : '';
                 
                 return `
-                    <div class="status-step ${className}">
-                        <div class="status-icon">${icon}</div>
-                        <div class="status-info">
-                            <div class="status-title">${statusLabels[status]}</div>
-                            ${time ? `<div class="status-time">${time}</div>` : ''}
+                    <div class="timeline-item ${className}">
+                        <div class="timeline-marker">
+                            <span class="marker-icon">${statusIcons[status]}</span>
+                        </div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">${statusLabels[status]}</div>
+                            ${time ? `<div class="timeline-time">${time}</div>` : '<div class="timeline-time pending">รอดำเนินการ</div>'}
                         </div>
                     </div>
                 `;
@@ -192,20 +290,22 @@
             
             // Items
             document.getElementById('order-items').innerHTML = order.items.map(item => `
-                <div class="order-item">
-                    <div class="item-info">
-                        <div class="item-name">${item.name}</div>
-                        <div class="item-details">จำนวน: ${item.quantity} | ราคา: ฿${item.price.toLocaleString()}</div>
+                <div class="item-card">
+                    <div class="item-image">
+                        <img src="${item.imageUrl || 'https://placehold.co/80x80/FFE5EC/8B6B7B?text=🧸'}" alt="${item.name}" onerror="this.src='https://placehold.co/80x80/FFE5EC/8B6B7B?text=🧸'">
                     </div>
-                    <div class="item-price">฿${(item.price * item.quantity).toLocaleString()}</div>
+                    <div class="item-details">
+                        <div class="item-name">${item.name}</div>
+                        <div class="item-meta">จำนวน: ${item.quantity} × ฿${item.price.toLocaleString()}</div>
+                    </div>
+                    <div class="item-total">฿${(item.price * item.quantity).toLocaleString()}</div>
                 </div>
             `).join('');
             
-            // Show detail
-            document.getElementById('order-detail').style.display = 'block';
-            
-            // Scroll to detail
-            document.getElementById('order-detail').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            // Show detail with animation
+            const detailSection = document.getElementById('order-detail');
+            detailSection.style.display = 'block';
+            detailSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     </script>
 </body>

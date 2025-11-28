@@ -4,69 +4,162 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>สั่งซื้อสำเร็จ - PINKORY</title>
+    <title>สั่งซื้อสำเร็จ - Doll Pre-Order</title>
     <link rel="stylesheet" href="../css/common.css">
     <link rel="stylesheet" href="../css/order-success.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="../img/logo.png">
 </head>
 
 <body>
-    <header class="header">
+    <header class="header" id="header">
         <nav class="navbar">
             <div class="nav-left">
-                <a href="index.html" class="nav-item home">Home</a>
-                <a href="search.html" class="nav-item">🔍 ค้นหาสินค้า</a>
+                <a href="search.html" class="search-link">🔍 ค้นหา</a>
+                <a href="index.html" class="nav-item">หน้าแรก</a>
             </div>
             <div class="nav-center">
                 <a href="index.html">
-                    <img src="../img/logo.png" alt="PINKORY Logo">
+                    <img src="../img/logo.png" alt="Doll Pre-Order Logo">
                 </a>
             </div>
             <div class="nav-right">
-                <a href="cart.html" class="nav-item cart-link">
+                <a href="cart.html" class="cart-link">
                     🛒 ตะกร้า
                     <span id="cart-badge" class="cart-badge">0</span>
                 </a>
-                <a href="team.html" class="nav-item">About Us</a>
+                <a href="team.html" class="nav-item">เกี่ยวกับเรา</a>
                 <a href="login.html" class="login-btn">เข้าสู่ระบบ</a>
             </div>
         </nav>
     </header>
 
-    <main class="success-container">
-        <div class="success-box">
-            <div class="step-indicator" style="margin-bottom: 30px;">
-                <div class="step completed">1. ข้อมูลการจัดส่ง</div>
-                <div class="step completed">2. ชำระเงิน</div>
-                <div class="step completed">3. เสร็จสิ้น</div>
+    <main class="success-page">
+        <!-- Floating Decorations -->
+        <div class="floating-shapes">
+            <div class="shape shape-1">🎀</div>
+            <div class="shape shape-2">✨</div>
+            <div class="shape shape-3">🧸</div>
+            <div class="shape shape-4">💝</div>
+            <div class="shape shape-5">🌸</div>
+        </div>
+
+        <div class="success-container">
+            <!-- Progress Steps -->
+            <div class="progress-tracker">
+                <div class="progress-step completed">
+                    <div class="step-circle">
+                        <span class="step-check">✓</span>
+                    </div>
+                    <span class="step-label">ข้อมูลจัดส่ง</span>
+                </div>
+                <div class="progress-line completed"></div>
+                <div class="progress-step completed">
+                    <div class="step-circle">
+                        <span class="step-check">✓</span>
+                    </div>
+                    <span class="step-label">ชำระเงิน</span>
+                </div>
+                <div class="progress-line completed"></div>
+                <div class="progress-step completed active">
+                    <div class="step-circle">
+                        <span class="step-check">✓</span>
+                    </div>
+                    <span class="step-label">เสร็จสิ้น</span>
+                </div>
             </div>
 
-            <div class="success-icon">✓</div>
-            <h1>สั่งซื้อสำเร็จ!</h1>
-            <p>ขอบคุณที่ใช้บริการ PINKORY</p>
-            <p>เราได้รับคำสั่งซื้อของคุณเรียบร้อยแล้ว</p>
+            <!-- Success Card -->
+            <div class="success-card">
+                <!-- Animated Success Icon -->
+                <div class="success-icon-wrapper">
+                    <div class="success-icon-bg"></div>
+                    <div class="success-icon-ring"></div>
+                    <div class="success-icon">
+                        <svg viewBox="0 0 52 52" class="checkmark">
+                            <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none" />
+                            <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+                        </svg>
+                    </div>
+                </div>
 
-            <div class="order-number">
-                <div class="order-number-label">หมายเลขคำสั่งซื้อ</div>
-                <div class="order-number-value" id="order-number">-</div>
+                <!-- Success Message -->
+                <div class="success-message">
+                    <h1>🎉 สั่งซื้อสำเร็จ!</h1>
+                    <p class="success-subtitle">ขอบคุณที่ไว้วางใจ Doll Pre-Order</p>
+                    <p class="success-desc">คำสั่งซื้อของคุณได้รับการยืนยันเรียบร้อยแล้ว</p>
+                </div>
+
+                <!-- Order Number Card -->
+                <div class="order-number-card">
+                    <div class="order-number-icon">📦</div>
+                    <div class="order-number-content">
+                        <span class="order-number-label">หมายเลขคำสั่งซื้อ</span>
+                        <span class="order-number-value" id="order-number">-</span>
+                    </div>
+                    <button class="copy-btn" onclick="copyOrderNumber()" title="คัดลอก">
+                        📋
+                    </button>
+                </div>
+
+                <!-- Order Details Grid -->
+                <div class="order-details-grid">
+                    <div class="detail-card">
+                        <div class="detail-icon">📧</div>
+                        <div class="detail-content">
+                            <span class="detail-label">ส่งรายละเอียดไปที่</span>
+                            <span class="detail-value" id="customer-email">-</span>
+                        </div>
+                    </div>
+                    <div class="detail-card">
+                        <div class="detail-icon">💰</div>
+                        <div class="detail-content">
+                            <span class="detail-label">ยอดชำระทั้งหมด</span>
+                            <span class="detail-value highlight" id="order-total">฿0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Info Banner -->
+                <div class="info-banner">
+                    <div class="info-banner-icon">💡</div>
+                    <div class="info-banner-text">
+                        <strong>เคล็ดลับ:</strong> บันทึกหมายเลขคำสั่งซื้อไว้เพื่อติดตามสถานะการจัดส่ง
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <a href="#" id="track-order-btn" class="btn-action btn-primary-action">
+                        <span class="btn-icon">📍</span>
+                        <span class="btn-text">ติดตามคำสั่งซื้อ</span>
+                        <span class="btn-arrow">→</span>
+                    </a>
+                    <a href="search.html" class="btn-action btn-secondary-action">
+                        <span class="btn-icon">🛍️</span>
+                        <span class="btn-text">ช้อปปิ้งต่อ</span>
+                    </a>
+                    <a href="index.html" class="btn-action btn-outline-action">
+                        <span class="btn-icon">🏠</span>
+                        <span class="btn-text">กลับหน้าแรก</span>
+                    </a>
+                </div>
             </div>
 
-            <div class="info-box">
-                <p>📧 เราได้ส่งรายละเอียดคำสั่งซื้อไปยังอีเมล: <strong id="customer-email">-</strong></p>
-                <p>📦 คุณสามารถติดตามสถานะคำสั่งซื้อได้ด้วยหมายเลขด้านบน</p>
-                <p>💳 ยอดชำระ: <strong id="order-total">฿0</strong></p>
-            </div>
-
-            <div class="action-buttons">
-                <a href="#" id="track-order-btn" class="btn btn-primary">📍 ติดตามคำสั่งซื้อ</a>
-                <a href="index.html" class="btn btn-secondary">🏠 กลับหน้าแรก</a>
+            <!-- Social Share -->
+            <div class="share-section">
+                <p class="share-text">แชร์ความสุขกับเพื่อนๆ</p>
+                <div class="share-buttons">
+                    <button class="share-btn" onclick="shareToFacebook()">📘</button>
+                    <button class="share-btn" onclick="shareToTwitter()">🐦</button>
+                    <button class="share-btn" onclick="shareToLine()">💚</button>
+                </div>
             </div>
         </div>
     </main>
 
-    <footer class="footer">
-        <p>&copy; 2024 PINKORY. All rights reserved.</p>
+    <footer>
+        <p>&copy; 2024 Doll Pre-Order. All rights reserved.</p>
+        <p>Made with <span class="footer-heart">❤️</span> by Our Team</p>
     </footer>
 
     <script src="../js/cart-utils.js"></script>
@@ -78,26 +171,20 @@
             document.getElementById('order-number').textContent = orderData.orderNumber;
             document.getElementById('order-total').textContent = `฿${orderData.totalAmount?.toLocaleString() || '0'}`;
 
-            // Get customer email from sessionStorage or order data
             const customerEmail = sessionStorage.getItem('customerEmail') || 'อีเมลของคุณ';
             document.getElementById('customer-email').textContent = customerEmail;
 
-            // Setup track order button with auto-fill
             document.getElementById('track-order-btn').addEventListener('click', (e) => {
                 e.preventDefault();
-                // Save order info for auto-fill in track page
                 sessionStorage.setItem('trackOrderNumber', orderData.orderNumber);
                 sessionStorage.setItem('trackEmail', customerEmail);
                 window.location.href = 'order-track.html';
             });
 
-            // Clear cart
             clearCart();
-
-            // Create confetti effect
             createConfetti();
+            createSparkles();
 
-            // Clear completed order after 5 seconds (keep track info)
             setTimeout(() => {
                 sessionStorage.removeItem('currentOrder');
                 sessionStorage.removeItem('completedOrder');
@@ -106,21 +193,60 @@
             document.getElementById('order-number').textContent = 'ไม่พบข้อมูล';
         }
 
+        // Copy order number
+        function copyOrderNumber() {
+            const orderNumber = document.getElementById('order-number').textContent;
+            navigator.clipboard.writeText(orderNumber).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                btn.textContent = '✓';
+                setTimeout(() => btn.textContent = '📋', 2000);
+            });
+        }
+
         // Confetti animation
         function createConfetti() {
-            const colors = ['#FF85A2', '#FFB6C1', '#FFC2D1', '#4CAF50', '#FFD700'];
-            for (let i = 0; i < 50; i++) {
+            const colors = ['#FFB7C5', '#FF69B4', '#E91E63', '#FFD700', '#4CAF50', '#FF9EAA'];
+            const shapes = ['circle', 'square', 'triangle'];
+
+            for (let i = 0; i < 80; i++) {
                 setTimeout(() => {
                     const confetti = document.createElement('div');
-                    confetti.className = 'confetti';
+                    confetti.className = 'confetti ' + shapes[Math.floor(Math.random() * shapes.length)];
                     confetti.style.left = Math.random() * 100 + '%';
                     confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
-                    confetti.style.animationDelay = Math.random() * 2 + 's';
+                    confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                    confetti.style.animationDelay = Math.random() * 0.5 + 's';
                     document.body.appendChild(confetti);
 
-                    setTimeout(() => confetti.remove(), 3000);
-                }, i * 30);
+                    setTimeout(() => confetti.remove(), 4000);
+                }, i * 25);
             }
+        }
+
+        // Sparkle effect
+        function createSparkles() {
+            const container = document.querySelector('.success-icon-wrapper');
+            for (let i = 0; i < 12; i++) {
+                setTimeout(() => {
+                    const sparkle = document.createElement('div');
+                    sparkle.className = 'sparkle';
+                    sparkle.style.left = (Math.random() * 100) + '%';
+                    sparkle.style.top = (Math.random() * 100) + '%';
+                    container.appendChild(sparkle);
+                    setTimeout(() => sparkle.remove(), 1000);
+                }, i * 200);
+            }
+        }
+
+        // Share functions
+        function shareToFacebook() {
+            window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(window.location.href), '_blank');
+        }
+        function shareToTwitter() {
+            window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent('เพิ่งสั่งตุ๊กตาน่ารักจาก Doll Pre-Order! 🧸'), '_blank');
+        }
+        function shareToLine() {
+            window.open('https://social-plugins.line.me/lineit/share?url=' + encodeURIComponent(window.location.href), '_blank');
         }
     </script>
 </body>

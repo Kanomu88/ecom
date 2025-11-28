@@ -1,102 +1,116 @@
 /* ========================================
-   CHECKOUT PAGE STYLES - Luxurious Pink Theme
+   CHECKOUT PAGE - Premium Checkout Flow
+   World-Class E-commerce Experience
    ======================================== */
 
 .checkout-container {
     max-width: 1200px;
-    margin: 40px auto 30px;
-    padding: 20px;
-    min-height: calc(100vh - 200px);
+    margin: 40px auto 80px;
+    padding: 0 24px;
+    min-height: calc(100vh - 300px);
 }
 
+/* ========================================
+   HEADER & STEPS
+   ======================================== */
 .checkout-header {
     text-align: center;
-    margin-bottom: 35px;
+    margin-bottom: 48px;
+    animation: fadeInUp 0.6s ease-out;
 }
 
 .checkout-header h1 {
-    color: var(--text-primary);
-    font-size: 2.5em;
-    margin-bottom: 20px;
-    font-family: 'Playfair Display', serif;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.8rem;
+    color: var(--text-dark);
+    margin-bottom: 32px;
 }
 
 /* Step Indicator */
 .step-indicator {
     display: flex;
     justify-content: center;
-    gap: 30px;
-    margin-bottom: 40px;
-    position: relative;
+    gap: 16px;
+    flex-wrap: wrap;
 }
 
 .step {
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 10px 25px;
+    padding: 12px 28px;
     border-radius: var(--radius-full);
     background: white;
-    color: var(--text-secondary);
+    color: var(--text-light);
     font-weight: 600;
-    font-size: 0.95em;
-    transition: all 0.3s ease;
-    position: relative;
-    z-index: 1;
-    border: 1px solid var(--border-light);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    font-size: 0.95rem;
+    border: 2px solid var(--border-soft);
+    transition: var(--transition-normal);
 }
 
 .step.active {
-    background: linear-gradient(135deg, var(--accent-gold), var(--accent-rose));
+    background: linear-gradient(135deg, var(--accent-hot), var(--accent-deep));
     color: white;
-    box-shadow: 0 4px 15px rgba(230, 164, 180, 0.4);
-    transform: scale(1.05);
     border-color: transparent;
+    box-shadow: 0 6px 20px rgba(255, 105, 180, 0.35);
+    transform: scale(1.05);
 }
 
 .step.completed {
     background: white;
-    color: var(--accent-rose);
-    border-color: var(--accent-rose);
+    color: var(--accent-deep);
+    border-color: var(--accent-deep);
 }
 
 .step.completed::after {
     content: '✓';
-    margin-left: 8px;
-    font-weight: bold;
+    margin-left: 6px;
+    font-weight: 700;
 }
 
-/* Form Layout */
+/* ========================================
+   FORM LAYOUT
+   ======================================== */
 .checkout-layout {
     display: grid;
-    grid-template-columns: 1fr 380px;
-    gap: 30px;
+    grid-template-columns: 1fr 400px;
+    gap: 32px;
+    animation: fadeInUp 0.6s ease-out 0.2s both;
 }
 
 .checkout-form {
     background: white;
-    border-radius: var(--radius-lg);
-    padding: 30px;
-    box-shadow: 0 10px 30px rgba(230, 164, 180, 0.15);
-    border: 1px solid var(--border-light);
+    border-radius: var(--radius-xl);
+    padding: 40px;
+    border: 1px solid var(--border-soft);
+    box-shadow: var(--shadow-md);
 }
 
 .form-sections-wrapper {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 30px;
-    margin-bottom: 30px;
+    gap: 40px;
+    margin-bottom: 32px;
 }
 
 .form-section h3 {
-    color: var(--text-primary);
-    margin-bottom: 20px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid var(--border-gold);
-    font-size: 1.3em;
-    font-family: 'Playfair Display', serif;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    color: var(--text-dark);
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--border-soft);
+    position: relative;
+}
+
+.form-section h3::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent-hot), var(--accent-deep));
 }
 
 .form-row {
@@ -107,83 +121,101 @@
 }
 
 .form-group {
-    margin-bottom: 18px;
+    margin-bottom: 20px;
 }
 
 .form-group label {
     display: block;
-    margin-bottom: 8px;
-    color: var(--text-primary);
+    margin-bottom: 10px;
+    color: var(--text-dark);
     font-weight: 600;
-    font-size: 0.95em;
+    font-size: 0.9rem;
 }
 
 .form-group input,
 .form-group textarea,
 .form-group select {
     width: 100%;
-    padding: 12px 16px;
-    border: 1px solid var(--border-light);
+    padding: 14px 18px;
+    border: 2px solid var(--border-soft);
     border-radius: var(--radius-md);
-    font-size: 1em;
-    font-family: 'Lato', sans-serif;
-    background: var(--bg-cream);
-    transition: all 0.3s ease;
+    font-size: 1rem;
+    font-family: 'Quicksand', sans-serif;
+    background: var(--bg-soft);
+    transition: var(--transition-normal);
 }
 
 .form-group input:focus,
 .form-group textarea:focus,
 .form-group select:focus {
     outline: none;
-    border-color: var(--accent-rose);
-    box-shadow: 0 0 0 3px rgba(255, 105, 180, 0.1);
+    border-color: var(--accent-hot);
     background: white;
+    box-shadow: 0 0 0 4px rgba(255, 105, 180, 0.1);
 }
 
 .form-group.error input {
-    border-color: #F44336;
-    background: #FFF5F5;
+    border-color: #E53935;
+    background: rgba(244, 67, 54, 0.05);
 }
 
 .error-message {
-    color: #F44336;
-    font-size: 0.85em;
-    margin-top: 6px;
+    color: #E53935;
+    font-size: 0.85rem;
+    margin-top: 8px;
+    font-weight: 500;
 }
 
-/* Order Summary */
+/* ========================================
+   ORDER SUMMARY
+   ======================================== */
 .order-summary {
     background: white;
-    border-radius: var(--radius-lg);
-    padding: 30px;
-    box-shadow: 0 10px 30px rgba(230, 164, 180, 0.2);
+    border-radius: var(--radius-xl);
+    padding: 36px;
+    border: 2px solid var(--border-medium);
+    box-shadow: var(--shadow-lg);
     position: sticky;
-    top: 90px;
-    border: 1px solid var(--border-gold);
+    top: 120px;
+    height: fit-content;
 }
 
 .order-summary h3 {
-    color: var(--text-primary);
-    margin-bottom: 20px;
-    font-family: 'Playfair Display', serif;
-    font-size: 1.5em;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    color: var(--text-dark);
+    margin-bottom: 24px;
     text-align: center;
-    border-bottom: 2px solid var(--bg-cream);
-    padding-bottom: 15px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--border-soft);
 }
 
 .summary-items {
-    max-height: 300px;
+    max-height: 320px;
     overflow-y: auto;
     margin-bottom: 20px;
-    padding-right: 10px;
+    padding-right: 8px;
+}
+
+.summary-items::-webkit-scrollbar {
+    width: 6px;
+}
+
+.summary-items::-webkit-scrollbar-track {
+    background: var(--bg-soft);
+    border-radius: 3px;
+}
+
+.summary-items::-webkit-scrollbar-thumb {
+    background: var(--border-medium);
+    border-radius: 3px;
 }
 
 .summary-item {
     display: flex;
-    gap: 15px;
-    padding: 15px 0;
-    border-bottom: 1px solid var(--border-light);
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border-soft);
 }
 
 .summary-item:last-child {
@@ -195,8 +227,9 @@
     height: 70px;
     object-fit: cover;
     border-radius: var(--radius-sm);
-    box-shadow: var(--shadow-sm);
-    border: 1px solid var(--border-light);
+    background: var(--bg-soft);
+    padding: 4px;
+    border: 1px solid var(--border-soft);
 }
 
 .summary-item-details {
@@ -205,76 +238,77 @@
 
 .summary-item-name {
     font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: 5px;
-    font-family: 'Playfair Display', serif;
+    color: var(--text-dark);
+    margin-bottom: 6px;
+    font-size: 0.95rem;
 }
 
 .summary-item-price {
-    color: var(--accent-rose);
-    font-size: 0.95em;
-    font-weight: 600;
+    color: var(--accent-deep);
+    font-size: 0.95rem;
+    font-weight: 700;
 }
 
 .summary-total {
-    border-top: 1px solid var(--border-gold);
+    border-top: 2px solid var(--border-medium);
     padding-top: 20px;
     margin-top: 20px;
-    font-size: 1.5em;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
     font-weight: 700;
-    color: var(--accent-gold);
+    color: var(--accent-deep);
     display: flex;
     justify-content: space-between;
-    font-family: 'Playfair Display', serif;
 }
 
-/* Buttons */
+/* ========================================
+   BUTTONS
+   ======================================== */
 .form-actions {
     display: flex;
-    gap: 15px;
-    margin-top: 30px;
+    gap: 16px;
+    margin-top: 32px;
 }
 
 .btn {
     flex: 1;
-    padding: 15px;
+    padding: 16px;
     border: none;
     border-radius: var(--radius-full);
-    font-size: 1.05em;
-    font-weight: 600;
+    font-size: 1rem;
+    font-weight: 700;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: var(--transition-normal);
     text-decoration: none;
     text-align: center;
-    font-family: 'Lato', sans-serif;
+    font-family: 'Quicksand', sans-serif;
 }
 
 .btn-secondary {
     background: white;
-    color: var(--text-primary);
-    border: 1px solid var(--border-gold);
+    color: var(--text-dark);
+    border: 2px solid var(--border-medium);
 }
 
 .btn-secondary:hover {
-    background: var(--bg-cream);
-    border-color: var(--accent-rose);
-    color: var(--accent-rose);
+    background: var(--bg-soft);
+    border-color: var(--accent-hot);
+    color: var(--accent-hot);
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, var(--accent-gold), var(--accent-rose));
+    background: linear-gradient(135deg, var(--accent-hot), var(--accent-deep));
     color: white;
-    box-shadow: 0 4px 15px rgba(230, 164, 180, 0.4);
+    box-shadow: 0 6px 24px rgba(255, 105, 180, 0.35);
 }
 
 .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(230, 164, 180, 0.6);
-    background: linear-gradient(135deg, var(--accent-rose), var(--accent-gold));
+    transform: translateY(-3px);
+    box-shadow: 0 10px 32px rgba(255, 105, 180, 0.45);
 }
 
 .btn-primary:disabled {
-    background: #ccc;
+    background: var(--text-light);
     cursor: not-allowed;
     transform: none;
     box-shadow: none;
@@ -284,93 +318,81 @@
 .loading {
     display: none;
     text-align: center;
-    padding: 20px;
+    padding: 24px;
 }
 
 .spinner {
-    border: 4px solid var(--bg-cream);
-    border-top: 4px solid var(--accent-rose);
+    border: 4px solid var(--bg-soft);
+    border-top: 4px solid var(--accent-hot);
     border-radius: 50%;
-    width: 50px;
-    height: 50px;
+    width: 48px;
+    height: 48px;
     animation: spin 1s linear infinite;
-    margin: 0 auto 20px;
+    margin: 0 auto 16px;
 }
 
 @keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    100% {
-        transform: rotate(360deg);
-    }
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
-/* Responsive */
-@media (max-width: 968px) {
-    .checkout-container {
-        margin: 30px auto 20px;
-    }
-
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+@media (max-width: 1024px) {
     .checkout-layout {
         grid-template-columns: 1fr;
     }
-
+    
     .form-sections-wrapper {
         grid-template-columns: 1fr;
-        gap: 25px;
+        gap: 32px;
     }
-
+    
     .order-summary {
         position: static;
-        margin-top: 30px;
-    }
-
-    .step-indicator {
-        flex-direction: column;
-        align-items: center;
-        gap: 12px;
-    }
-
-    .step {
-        width: 100%;
-        justify-content: center;
+        margin-top: 24px;
     }
 }
 
 @media (max-width: 768px) {
+    .checkout-container {
+        margin: 24px auto 60px;
+        padding: 0 16px;
+    }
+    
     .checkout-header h1 {
-        font-size: 2em;
+        font-size: 2.2rem;
     }
-
+    
+    .step-indicator {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+    
+    .step {
+        justify-content: center;
+    }
+    
     .checkout-form {
-        padding: 25px;
+        padding: 28px 20px;
     }
-
+    
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
     .order-summary {
-        padding: 25px;
+        padding: 28px;
     }
 }
 
 @media (max-width: 480px) {
-    .checkout-container {
-        padding: 15px;
-        margin: 20px auto 15px;
+    .checkout-header h1 {
+        font-size: 1.8rem;
     }
-
-    .checkout-header {
-        margin-bottom: 25px;
-    }
-
-    .checkout-form {
-        padding: 20px;
-    }
-
-    .form-group {
-        margin-bottom: 18px;
-    }
-
+    
     .form-actions {
         flex-direction: column;
     }

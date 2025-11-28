@@ -1,235 +1,253 @@
 /* ========================================
-   PAYMENT PAGE STYLES - Luxurious Pink Theme
+   PAYMENT PAGE - Premium Payment Experience
+   World-Class Checkout Flow
    ======================================== */
 
 .payment-container {
-    max-width: 1100px;
-    margin: 40px auto 30px;
-    padding: 20px;
-    min-height: calc(100vh - 200px);
+    max-width: 1000px;
+    margin: 40px auto 80px;
+    padding: 0 24px;
+    min-height: calc(100vh - 300px);
 }
 
+/* ========================================
+   PAYMENT BOX - Split Layout
+   ======================================== */
 .payment-box {
     background: white;
-    border-radius: var(--radius-lg);
-    padding: 40px;
-    box-shadow: 0 10px 30px rgba(230, 164, 180, 0.2);
-    border: 1px solid var(--border-light);
-    animation: fadeInUp 0.6s ease-out;
+    border-radius: var(--radius-xl);
+    padding: 48px;
+    border: 1px solid var(--border-soft);
+    box-shadow: var(--shadow-lg);
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 40px;
+    gap: 48px;
     align-items: start;
-}
-
-.payment-left {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.payment-right {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    animation: scaleIn 0.6s ease-out;
 }
 
 .payment-box h2 {
-    color: var(--text-primary);
-    margin-bottom: 15px;
-    font-size: 1.8em;
-    text-align: center;
     grid-column: 1 / -1;
-    font-family: 'Playfair Display', serif;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem;
+    color: var(--text-dark);
+    text-align: center;
+    margin-bottom: 16px;
+    position: relative;
 }
 
+.payment-box h2::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent-hot), var(--accent-deep));
+    margin: 16px auto 0;
+    border-radius: 2px;
+}
+
+.payment-left,
+.payment-right {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* ========================================
+   ORDER INFO
+   ======================================== */
 .order-info {
-    margin: 0;
-    padding: 25px;
-    background: var(--bg-cream);
+    padding: 28px;
+    background: var(--bg-soft);
     border-radius: var(--radius-lg);
-    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.02);
-    border: 1px solid var(--border-gold);
+    border: 1px solid var(--border-soft);
 }
 
 .order-info-row {
     display: flex;
     justify-content: space-between;
-    margin: 12px 0;
-    font-size: 1.05em;
-    color: var(--text-secondary);
+    margin: 14px 0;
+    font-size: 1rem;
+    color: var(--text-medium);
 }
 
 .order-info-row.total {
-    font-size: 1.6em;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
     font-weight: 700;
-    color: var(--accent-rose);
-    border-top: 1px solid var(--border-gold);
-    padding-top: 18px;
-    margin-top: 18px;
-    font-family: 'Playfair Display', serif;
+    color: var(--accent-deep);
+    border-top: 2px solid var(--border-medium);
+    padding-top: 20px;
+    margin-top: 20px;
 }
 
+/* ========================================
+   QR CODE SECTION
+   ======================================== */
 .qr-code-container {
-    padding: 25px;
+    padding: 32px;
     background: white;
     border-radius: var(--radius-lg);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-    border: 2px solid var(--accent-gold);
+    border: 2px solid var(--accent-hot);
     text-align: center;
     position: relative;
+    box-shadow: 0 8px 32px rgba(255, 105, 180, 0.15);
+}
+
+.qr-code-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-pink), var(--accent-hot), var(--accent-deep));
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
 }
 
 .qr-code-container h3 {
-    color: var(--text-primary);
-    margin-bottom: 18px;
-    font-size: 1.2em;
-    font-family: 'Playfair Display', serif;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    color: var(--text-dark);
+    margin-bottom: 20px;
 }
 
 .qr-code {
     max-width: 100%;
-    width: 200px;
+    width: 220px;
     height: auto;
     margin: 0 auto;
     display: block;
     border-radius: var(--radius-sm);
-    padding: 10px;
+    padding: 12px;
     background: white;
-    border: 1px solid var(--border-light);
+    border: 2px solid var(--border-soft);
+    box-shadow: var(--shadow-sm);
 }
 
+/* ========================================
+   INSTRUCTIONS
+   ======================================== */
 .instructions {
-    text-align: left;
-    padding: 20px;
+    padding: 24px;
     background: white;
-    border-radius: var(--radius-md);
-    border-left: 4px solid var(--accent-rose);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border-radius: var(--radius-lg);
+    border-left: 4px solid var(--accent-hot);
+    box-shadow: var(--shadow-xs);
 }
 
 .instructions h4 {
-    color: var(--text-primary);
-    margin-bottom: 12px;
-    font-size: 1.15em;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.1rem;
+    color: var(--text-dark);
+    margin-bottom: 16px;
     display: flex;
     align-items: center;
     gap: 10px;
-    font-family: 'Playfair Display', serif;
+    font-weight: 700;
 }
 
 .instructions ol {
     margin-left: 20px;
-    line-height: 1.7;
+    line-height: 1.8;
 }
 
 .instructions li {
-    margin: 8px 0;
-    color: var(--text-secondary);
+    margin: 10px 0;
+    color: var(--text-medium);
     font-weight: 500;
-    font-size: 0.95em;
+    font-size: 0.95rem;
 }
 
+/* ========================================
+   TIMER WARNING
+   ======================================== */
 .timer-warning {
-    background: #FFF5F5;
-    color: #C62828;
-    padding: 15px;
+    background: rgba(255, 152, 0, 0.1);
+    color: #E65100;
+    padding: 18px;
     border-radius: var(--radius-md);
     font-weight: 600;
-    margin-top: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    border: 1px solid #FFCDD2;
+    gap: 12px;
+    border: 1px solid rgba(255, 152, 0, 0.3);
 }
 
 .timer {
-    font-size: 1.3em;
+    font-size: 1.4rem;
     font-weight: 700;
-    font-family: 'Lato', sans-serif;
+    font-family: 'Quicksand', sans-serif;
 }
 
+/* ========================================
+   CONFIRM BUTTON
+   ======================================== */
 .confirm-btn {
     width: 100%;
-    padding: 16px;
-    background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-rose) 100%);
+    padding: 18px;
+    background: linear-gradient(135deg, var(--accent-hot), var(--accent-deep));
     color: white;
     border: none;
     border-radius: var(--radius-full);
-    font-size: 1.15em;
-    font-weight: 600;
+    font-size: 1.15rem;
+    font-weight: 700;
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(230, 164, 180, 0.4);
-    font-family: 'Lato', sans-serif;
+    transition: var(--transition-normal);
+    box-shadow: 0 8px 28px rgba(255, 105, 180, 0.35);
+    font-family: 'Quicksand', sans-serif;
     letter-spacing: 0.5px;
+    text-transform: uppercase;
 }
 
 .confirm-btn:hover {
-    background: linear-gradient(135deg, var(--accent-rose) 0%, var(--accent-gold) 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(230, 164, 180, 0.6);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 36px rgba(255, 105, 180, 0.45);
 }
 
 .confirm-btn:active {
-    transform: translateY(0);
+    transform: translateY(-1px);
 }
 
-/* Responsive */
-@media (max-width: 968px) {
-    .payment-container {
-        margin: 30px auto 20px;
-        padding: 20px;
-    }
-
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+@media (max-width: 900px) {
     .payment-box {
-        padding: 30px 25px;
         grid-template-columns: 1fr;
-        gap: 25px;
+        gap: 32px;
+        padding: 36px 28px;
     }
-
+    
     .payment-box h2 {
-        font-size: 1.6em;
-    }
-
-    .order-info-row.total {
-        font-size: 1.4em;
+        font-size: 1.8rem;
     }
 }
 
 @media (max-width: 480px) {
     .payment-container {
-        margin: 20px auto 15px;
-        padding: 15px;
+        margin: 24px auto 60px;
+        padding: 0 16px;
     }
-
+    
     .payment-box {
-        padding: 25px 20px;
+        padding: 28px 20px;
     }
-
+    
     .order-info {
         padding: 20px;
     }
-
+    
     .qr-code-container {
+        padding: 24px;
+    }
+    
+    .instructions {
         padding: 20px;
     }
-
-    .instructions {
-        padding: 18px;
+    
+    .order-info-row.total {
+        font-size: 1.5rem;
     }
 }
